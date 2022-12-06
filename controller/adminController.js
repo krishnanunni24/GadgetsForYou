@@ -161,7 +161,8 @@ const editProductPost = async(req, res)=>{
     console.log('req.files:',req.files)
     console.log('req.body',req.body)
 
-    if(req.files?.length > 0){
+    // if(req.files?.length > 0){
+        if(req.file.filename){
         productHelpers.editProductImage(req.params.id,req.files)
     }
    req.body.price=parseInt(req.body.price)
@@ -252,10 +253,10 @@ const addCatagoryPost = function (req, res) {
 
 const editCatagoryPost = function (req, res) {
 
-    if(req.file?.filename){
-        
+    // if(req.file?.filename){
+        if(req.file.filename){   
      catagoryHelpers.editCatagoryImage(req.params.id,req.file)
-    }
+     }
     req.body.catagoryOffer=parseInt(req.body.catagoryOffer)
     if(isNaN(req.body.catagoryOffer)){
         req.body.catagoryOffer=0

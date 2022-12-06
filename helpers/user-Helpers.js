@@ -122,7 +122,9 @@ module.exports={
 
       let user=await db.get().collection(collection.USER_COLLECTION).findOne({_id:objectId(userId)})
       console.log(userId);
-       if(user.address?.length > 0){
+      //  if(user.address?.length > 0){
+       if(user.address.length > 0){
+
         db.get().collection(collection.USER_COLLECTION).updateOne({_id:objectId(userId)},{$push:{address:addrObj}}).then(()=>{
           resolve()
         })

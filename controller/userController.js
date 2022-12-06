@@ -214,8 +214,8 @@ const changeProductQuantity=(req,res)=>{
   cartHelpers.changeQuantity(req.body).then(async(response)=>{
     cartHelpers.getTotalValue(req.body.user).then((data)=>{
 
-      response.total=data[0]?.total
-
+      // response.total=data[0]?.total
+      response.total=data[0].total
       res.json(response)
     })    
   })
