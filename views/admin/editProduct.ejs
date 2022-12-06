@@ -1,0 +1,104 @@
+<%-include('../partials/admin/adminHeader')%>
+  <%-include('../partials/admin/adminSideNav')%>
+
+
+    <div id="page-content-wrapper">
+      <h2>Edit Product</h2>
+
+      <nav class="navbar navbar-expand-lg bg-light">
+
+        <img class="mx-5" src="/images/icons/738880.png" alt="" style="width: 10rem; height: 10rem;">
+
+        <div class="container-fluid p-5">
+
+
+          <form action="/admin/editProduct/<%-product._id%>" method="post" enctype="multipart/form-data">
+            <div class="row mb-2">
+              <div class="col">
+                <div class="form-outline">
+                  <input type="text" id="productName" name="name" class="form-control" required="true"
+                    value="<%-product.name%>" />
+                  <label class="form-label" for="productName">Product name</label>
+                </div>
+              </div>
+              <div class="col">
+                <select class="form-select" name="catagory" aria-label="Catagory">
+                 
+
+                      <option selected>
+                        <%-product.catagory%>
+                      </option>
+                      <%for(var i=0;i< catagory.length;i++){%>
+                      <option>
+                        <%-catagory[i].name%>
+                      </option>
+                      <%} %>
+
+                </select>
+              </div>
+
+              <!-- Text input -->
+                
+              
+                <div class="form-outline mb-2">
+                  <%for(var k=0;k< product.images.length;k++){%>
+                <img src="/uploads/<%-product.images[k].filename%>" alt="" style="width: 100px;height: auto;">
+                <%} %>
+                  <input type="file" id="productImage1" class="form-control"  name="image" />
+                  <label class="form-label" for="productImage1">Image1</label>
+                 
+                </div>
+              
+
+              <!-- Text input -->
+              <div class="form-outline mb-2">
+                <input type="number" id="productStocks" class="form-control" name="stocks" required="true"
+                  value="<%-product.stocks%>" />
+                <label class="form-label" for="productStocks">Stocks</label>
+              </div>
+
+          
+              <div class="form-outline mb-2">
+                <div class="input-group mb-3">
+                  <span class="input-group-text">₹</span>
+                  <input type="number" id="productPrice" class="form-control" name="price"
+                    aria-label="Amount (to the nearest dollar)" required="true" value="<%-product.price%>">
+                </div>
+                <label class="form-label" for="productPrice">Price</label>
+              </div>
+
+
+
+              <!-- Message input -->
+              <div class="form-outline mb-2">
+                <textarea class="form-control" id="productDescription" rows="4" name="description"
+                  required="true"><%-product.description%></textarea>
+                <label class="form-label" for="productDescription">Description</label>
+              </div>
+
+              <!-- offer input -->
+
+              <div class="form-outline mb-2">
+                <label for="Offer Input mb-1">Offer</label>
+                    <input type="number" class="form-control text-black" name="offer"
+                      placeholder="Offer in Percentage" aria-describedby="offerHelp" value="<%-product.offer%>">
+              </div>
+
+                <input type="hidden" value="<%-catagory.catagoryOffer%>" class="form-control text-black" name="catagoryOffer">
+
+
+              <!-- Submit button -->
+              <button type="submit" class="btn btn-success btn-block mb-4">Submit</button>
+          </form>
+        </div>
+      </nav>
+    </div>
+    <!-- /#page-content-wrapper -->
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-u1OknCvxWvY5kfmNBILK2hRnQC3Pr17a+RTT6rIHI7NnikvbZlHgTPOOmMi466C8"
+      crossorigin="anonymous"></script>
+    </body>
+
+  </html>

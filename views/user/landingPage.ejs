@@ -1,0 +1,393 @@
+<%if(user){%>
+  <%-include('../partials/users/userHeader')%>
+    <%}else{%>
+      <%-include('../partials/users/landingHeader')%>
+        <%} %>
+
+
+        <link rel='stylesheet' href='/stylesheets/signup.css' />
+   
+          <div class="container-fluid mt-5 p-0">
+            <div id="carouselExampleIndicators" class="carousel slide" data-bs-ride="carousel">
+              <div class="carousel-indicators">
+                <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="0" class="active"
+                  aria-current="true" aria-label="Slide 1"></button>
+                <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="1"
+                  aria-label="Slide 2"></button>
+                <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="2"
+                  aria-label="Slide 3"></button>
+              </div>
+              <div class="carousel-inner">
+                <div class="carousel-item active">
+                  <img src="https://cdn.shopify.com/s/files/1/0057/8938/4802/files/diwali-banner_2000x.gif?v=1664442921"
+                    class="d-block w-100" alt="...">
+                </div>
+                <div class="carousel-item">
+                  <img
+                    src="https://cdn.shopify.com/s/files/1/0057/8938/4802/files/SN-Desktop-Banner-Wave-Style_1_2000x.jpg?v=1663914840"
+                    class="d-block w-100" alt="...">
+                </div>
+                <div class="carousel-item">
+                  <img
+                    src="https://cdn.shopify.com/s/files/1/0057/8938/4802/files/DESKTOP-Banner-WB_4_2000x.gif?v=1664782144"
+                    class="d-block w-100" alt="...">
+                </div>
+              </div>
+              <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators"
+                data-bs-slide="prev">
+                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Previous</span>
+              </button>
+              <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleIndicators"
+                data-bs-slide="next">
+                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Next</span>
+              </button>
+            </div>
+          </div>
+
+          <section style="background-color: rgb(255, 255, 255);">
+
+
+            <!-- Button trigger modal -->
+
+            <h3 class="text text-center fw-bold mt-3">Shop by Catagory</h3>
+            <div class="container py-5">
+              <div class="row">
+
+                <% for(var i=0;i< catagory.length;i++) {%>
+
+                  <div class="col-md-12 col-lg-4 mb-4 mb-lg-0  ms-3 me-3 " style="width: 10rem; height:17rem">
+                    <div class="card bg-light border-0" style="width: 10rem; height:17rem">
+                      <%if(catagory[i].catagoryOffer> 0){%>
+                      <div class="badge-overlay">
+                        <span class="top-right badge grn">
+                          <%-catagory[i].catagoryOffer%> % offer
+                        </span>
+                      </div>
+                      <%}%>
+                    
+               
+                      <div class="d-flex justify-content-between p-3">
+                      </div>
+                      <a class="text-decoration-none" href="/catagory/<%-catagory[i]._id%>"><img
+                          src="/uploads/<%-catagory[i].filename%>" class="card-img-top" alt="Laptop" />
+                        <p class="lead mb-0 text-center text-dark fw-bold">
+                          <%-catagory[i].name%>
+                        </p>
+                      </a>
+                    </div>
+                  </div>
+
+                  <%} %>
+              </div>
+            </div>
+
+          </section>
+
+          
+
+          <div class="container">
+            <h3 class="text  fw-bold mt-3">Trending Now</h3>
+
+            <div class="row">
+
+              <% for(var i=0;i< products.length;i++) {%>
+
+                <div class="col-md-3 col-sm-6 mb-3">
+                  <div class="product-grid">
+
+                    <div class="product-image d-flex justify-content-center p-2">
+                      <%if(products[i].offer> 0){%>
+                        <div class="badge-overlay">
+                          <span class="top-right badge red">
+                            <%-products[i].offer%> % offer
+                          </span>
+                        </div>
+                        <%}%>
+
+                          <div class="img-container">
+                            <a href="/displayProduct/<%-products[i]._id%>" class="image">
+                              <img class="pic-1" src="/uploads/<%-products[i].images[0].filename%>">
+                            </a>
+                          </div>
+                          <!-- <span class="product-discount-label">-33%</span> -->
+                          <ul class="product-links">
+
+
+                            <%if(user){%>
+                               
+              
+                                    <li><a onclick="addToWishlist('<%-products[i]._id%>')" data-tip="Add to Wishlist"  id="<%-products[i]._id%>"><i class="fas fa-heart"></i></a></li>
+                                
+                           
+                                <li><a onclick="addToCart('<%-products[i]._id%>')" data-tip="Cart"><i
+                                      class="fas fa-cart-plus" ></i></a></li>
+                                
+
+                           
+                              <%}else{%>
+                                <li><a  data-tip="Add to Wishlist" onclick="displayErr()" data-tip="Cart" data-bs-toggle="modal"
+                                  data-bs-target="#exampleModal"><i class="fas fa-heart"></i></a></li>
+
+                                <li><a onclick="displayErr()" data-tip="Cart" data-bs-toggle="modal"
+                                    data-bs-target="#exampleModal"><i class="	fas fa-cart-plus"></i></a></li>
+                                <%}%>
+                                  <li><a href="/displayProduct/<%-products[i]._id%>" data-tip="Quick View"><i
+                                        class="fa fa-search"></i></a></li>
+                          </ul>
+                    </div>
+                    <div class="product-content">
+                      <ul class="rating">
+                        <li class="fas fa-star"></li>
+                        <li class="fas fa-star"></li>
+                        <li class="fas fa-star"></li>
+                        <li class="far fa-star"></li>
+                        <li class="far fa-star"></li>
+                      </ul>
+                      <h3 class="title"><a href="">
+                          <%-products[i].name.slice(0,40)%>
+                        </a></h3>
+                      <%if(products[i].price===products[i].finalPrice ){%>
+                        <span class="text text-danger fw-bold" style="font-size: 1.875em;"> ₹<%-products[i].finalPrice%>
+                            </span>
+                        <%}else{%>
+                          <div><span class="text text-success fw-bold"><del>₹<%-products[i].price%></del>
+                              <span class="text text-danger fw-bold" style="font-size: 1.875em;"> ₹
+                                <%-products[i].finalPrice%></span></div>
+                                <%} %>
+                    </div>
+                    
+
+                  </div>
+                </div>
+
+                <%} %>
+
+            </div>
+          </div>
+
+
+          <!-- OtpModal -->
+
+<div class="modal fade" id="otpModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-body">
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        <div class="myform bg-dark">
+            <h1 class="text-center"></h1>
+            <div id="SignupErrDiv" class="clr alert alert-danger py-2 alert-dismissible fade show text-center"  role="alert">
+              <strong id="SignUpErr"></strong>
+            </div>
+          
+          
+
+             
+    <form action="/otpVerify" id="myform" method="post">
+
+
+
+      <div class="container height-100 d-flex justify-content-center align-items-center">
+          <div class="position-relative">
+              <h3 class="text-center text-warning  ">OTP Verify</h3>
+              <div class="card p-2 text-center bg-dark">
+                <div id="otpErrDiv" class="clr alert bg-danger text-white mb-2 alert-dismissible fade show text-center border-danger border-4"  role="alert">
+                  <strong id="otpErr">OTP entered is Invalid!</strong>
+                </div>
+                  <h6>Please enter the one time password <br> to verify your account</h6>
+                  <div> <span>A 6 digit code has been sent to</span> <small class="text-success"></small> </div>
+                  
+                  <div id="otp" class="inputs d-flex flex-row justify-content-center mt-2">
+                      <input type="hidden" class="m-2 text-center form-control"  type="number" name="phone" id="hiddenPhone"/>
+                      <input class="m-2 text-center form-control"  type="number" name="otp" maxlength="6"  required='true'/>
+                  </div>
+                   <button type="submit" class="btn btn-light mt-3">Submit</button>
+
+              </div>
+          </div>
+      </div>
+
+
+
+
+
+  </form>
+
+          
+          
+          
+          
+            
+                    </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+          <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+          <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+          <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+
+
+          <script>
+
+            function addToWishlist(proId){
+              $.ajax({
+                url: '/addToWishlist/' + proId,
+                method: 'get',
+                success: (response) => {
+                  console.log(response.added)
+                  if(response.added){
+                    swal("Good job!", "Item added to Wishlist!", "success").then(() => {
+                    let btn=document.getElementById(proId).classList
+                    console.log('btn:',btn)
+                    btn.add('grn')
+                    })
+                  }else if(response.deleted){
+                    swal("Removed", "Item removed From Wishlist!", "warning").then(() => {
+                    let btn=document.getElementById(proId).classList
+                    btn.remove('grn')
+                    })
+                  }
+                  
+
+
+
+                }
+              })
+
+            }
+
+
+            function clrErr() {
+              let cls = document.getElementById('logInErrDiv').classList
+              cls.add('clr')
+            }
+
+            function displayErr() {
+              let cls = document.getElementById('logInErrDiv').classList
+              cls.remove('clr')
+            }
+
+
+
+            function addToCart(proId) {
+              
+              $.ajax({
+                url: '/addToCart/' + proId,
+                method: 'get',
+                success: (response) => {
+                  
+                  swal("Good job!", "Item added to Cart!", "success").then((value) => {
+
+                    location.reload()
+                  })
+
+
+
+                }
+              })
+
+            }
+
+            $('#loginForm').submit((e) => {
+              e.preventDefault()
+              $.ajax({
+                url: '/login',
+                method: 'post',
+                data: $('#loginForm').serialize(),
+                success: (response) => {
+                  if (response.status) {
+                    location.href = '/userPanel'
+                  } else if (response.blocked) {
+                    let err = document.getElementById('loginErrDiv').classList
+                    err.remove('clr')
+                    let cls = document.getElementById('logInErrDiv').classList
+                    cls.add('clr')
+                    document.getElementById('loginErr').innerHTML = 'This User is Blocked'
+                  } else {
+                    let cls = document.getElementById('logInErrDiv').classList
+                    cls.add('clr')
+                    let err = document.getElementById('loginErrDiv').classList
+                    err.remove('clr')
+                    document.getElementById('loginErr').innerHTML = 'Incorrect Email or Password'
+                  }
+
+                }
+              })
+            })
+
+
+            function phoneValidation() {
+      const phone = document.getElementById('phone').value.trim()
+      let spanPhone = document.getElementById('phoneSpan')
+      if (phone.length==10) {
+        spanPhone.innerHTML = 'Phone No is Valid'
+        spanPhone.style.color = 'green'
+      } else {
+        spanPhone.innerHTML = 'Phone number is not Valid'
+        spanPhone.style.color = 'red'
+      }
+    }
+
+    $('#signupForm').submit((e)=>{
+     e.preventDefault()
+     let phone=document.getElementById('inputPhone').value
+     let signupData=$('#signupForm').serialize()
+     console.log(signupData)
+     $.ajax({
+      url:'/otpLogin',
+      method:'post',
+      data:{
+        phone
+      },
+      success:(response)=>{
+       if(response.otpVerify){
+        document.getElementById('otpModalBtn').click();
+        document.getElementById('hiddenPhone').value=phone
+
+        
+       }else{
+
+       }
+      }
+     })
+    })
+
+    $('#myform').submit((e)=>{
+     e.preventDefault()
+      $.ajax({
+        url:'/otpVerify',
+        method:'post',
+        data:$('#myform').serialize(),
+        success:(response)=>{
+          if(response.otpErr){
+           document.getElementById('otpErrDiv').classList.remove('clr')
+          }else if(response.otpValid){
+            $.ajax({
+              url:'/signup',
+              method:'post',
+              data:$('#signupForm').serialize()
+              ,
+              success:(response)=>{
+                 if(response.signed){
+                   document.getElementById('loginBtn').click()
+                 }
+              }
+            })
+          }
+        }
+          
+        
+      })
+    })
+   
+
+
+          </script>
+
+
+          </body>
+
+          </html>

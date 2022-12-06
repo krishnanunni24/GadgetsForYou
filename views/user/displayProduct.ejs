@@ -1,0 +1,401 @@
+<%if(user){%>
+    <%-include('../partials/users/userHeader')%>
+
+        <%}else{%>
+            <%-include('../partials/users/landingHeader')%>
+
+                <%} %>
+
+
+                    <style>
+                        section {
+                            margin-top: 100px;
+                        }
+
+                        body {
+                            background-color: #ecedee
+                        }
+
+                        .card {
+                            border: none;
+                            overflow: hidden
+                        }
+
+                        .thumbnail_images ul {
+                            list-style: none;
+                            justify-content: center;
+                            display: flex;
+                            align-items: center;
+                            margin-top: 10px
+                        }
+
+                        .thumbnail_images ul li {
+                            margin: 5px;
+                            padding: 10px;
+                            border: 2px solid #eee;
+                            cursor: pointer;
+                            transition: all 0.5s
+                        }
+
+                        .thumbnail_images ul li:hover {
+                            border: 2px solid #000
+                        }
+
+                        .main_image {
+                            display: flex;
+                            justify-content: center;
+                            align-items: center;
+                            border-bottom: 1px solid #eee;
+                            height: 400px;
+                            width: 100%;
+                            overflow: hidden
+                        }
+
+                        .heart {
+                            height: 29px;
+                            width: 29px;
+                            background-color: #eaeaea;
+                            border-radius: 50%;
+                            display: flex;
+                            justify-content: center;
+                            align-items: center
+                        }
+
+                        .content p {
+                            font-size: 12px
+                        }
+
+                        .ratings span {
+                            font-size: 14px;
+                            margin-left: 12px
+                        }
+
+                        .colors {
+                            margin-top: 5px
+                        }
+
+                        .colors ul {
+                            list-style: none;
+                            display: flex;
+                            padding-left: 0px
+                        }
+
+                        .colors ul li {
+                            height: 20px;
+                            width: 20px;
+                            display: flex;
+                            border-radius: 50%;
+                            margin-right: 10px;
+                            cursor: pointer
+                        }
+
+                        .colors ul li:nth-child(1) {
+                            background-color: #6c704d
+                        }
+
+                        .colors ul li:nth-child(2) {
+                            background-color: #96918b
+                        }
+
+                        .colors ul li:nth-child(3) {
+                            background-color: #68778e
+                        }
+
+                        .colors ul li:nth-child(4) {
+                            background-color: #263f55
+                        }
+
+                        .colors ul li:nth-child(5) {
+                            background-color: black
+                        }
+
+                        .right-side {
+                            position: relative
+                        }
+
+                        .search-option {
+                            position: absolute;
+                            background-color: #000;
+                            overflow: hidden;
+                            align-items: center;
+                            color: #fff;
+                            width: 200px;
+                            height: 200px;
+                            border-radius: 49% 51% 50% 50% / 68% 69% 31% 32%;
+                            left: 30%;
+                            bottom: -250px;
+                            transition: all 0.5s;
+                            cursor: pointer
+                        }
+
+                        .search-option .first-search {
+                            position: absolute;
+                            top: 20px;
+                            left: 90px;
+                            font-size: 20px;
+                            opacity: 1000
+                        }
+
+                        .search-option .inputs {
+                            opacity: 0;
+                            transition: all 0.5s ease;
+                            transition-delay: 0.5s;
+                            position: relative
+                        }
+
+                        .search-option .inputs input {
+                            position: absolute;
+                            top: 200px;
+                            left: 30px;
+                            padding-left: 20px;
+                            background-color: transparent;
+                            width: 300px;
+                            border: none;
+                            color: #fff;
+                            border-bottom: 1px solid #eee;
+                            transition: all 0.5s;
+                            z-index: 10
+                        }
+
+                        .search-option .inputs input:focus {
+                            box-shadow: none;
+                            outline: none;
+                            z-index: 10
+                        }
+
+                        .search-option:hover {
+                            border-radius: 0px;
+                            width: 100%;
+                            left: 0px
+                        }
+
+                        .search-option:hover .inputs {
+                            opacity: 1
+                        }
+
+                        .search-option:hover .first-search {
+                            left: 27px;
+                            top: 25px;
+                            font-size: 15px
+                        }
+
+                        .search-option:hover .inputs input {
+                            top: 20px
+                        }
+
+                        .search-option .share {
+                            position: absolute;
+                            right: 20px;
+                            top: 22px
+                        }
+
+                        .buttons .btn {
+                            height: 50px;
+                            width: 150px;
+                            border-radius: 0px !important
+                        }
+                        
+                        * {box-sizing: border-box;}
+
+.img-zoom-container {
+  position: relative;
+}
+
+.img-zoom-lens {
+  position: absolute;
+  border: 1px solid #d4d4d4;
+  /*set the size of the lens:*/
+  width: 40px;
+  height: 40px;
+}
+
+.img-zoom-result {
+   
+
+  border: 1px solid #d4d4d4;
+  /*set the size of the result div:*/
+  width: 250px;
+  height: 300px;
+}
+
+
+                    </style>
+
+
+                    <section>
+                        <div class="container mt-5 mb-5">
+                            <div class="card">
+                                <div class="row g-0">
+                                    <div class="col-md-6 border-end">
+                                        <div class="d-flex flex-column justify-content-center">
+                                            <div class="main_image img-zoom-container">
+                                                
+                                                <img src="/uploads/<%-product.images[0].filename%>"
+                                                    id="zoom" width="350">
+                                            </div>
+                                            
+
+                                            <div class="thumbnail_images">
+                                                <ul id="thumbnail">
+                                                    <%for(var i=0;i< product.images.length ;i++){%>
+
+                                                        <li><img onclick="changeImage(this)" 
+                                                                src="/uploads/<%-product.images[i].filename%>"
+                                                                width="70"></li>
+
+                                                        <%}%>
+
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="p-3 right-side">
+                                            <div class="d-flex justify-content-between align-items-center">
+                                                <h3>
+                                                    <%-product.name%>
+                                                </h3>
+                                            </div>
+
+                                            <div class="mt-2 pr-3 content">
+                                                <p>
+                                                    <%-product.description.slice(0,110)%><span id="dots">...</span><span
+                                                            id="more">
+                                                            <%-product.description.slice(41)%>
+                                                        </span>
+                                                </p>
+
+                                                <button class="btn btn-light" onclick="myFunction()" id="myBtn">Read
+                                                    more</button></p>
+                                            </div>
+                                            <%if(product.price === product.finalPrice){%>
+                                                <h3 class="text-success fw-bold"><span class="text-danger fw-bold"> ₹<%-product.finalPrice%> </span>
+                                                </h3>
+                                                <%}else{%>
+                                                    <h3 class="text-success fw-bold"><del>₹<%-product.price%></del> <span class="text-danger fw-bold"> ₹<%-product.finalPrice%> </span>
+                                                    </h3>
+                                                    <span class="text-success fw-bold fst-italic"><%-product.offer%>% offer</span>
+                                                    <%}
+                                                %>
+
+                                            <div class="ratings d-flex flex-row align-items-center">
+                                                <div class="d-flex flex-row"> <i class='bx bxs-star'></i> <i
+                                                        class='bx bxs-star'></i> <i class='bx bxs-star'></i> <i
+                                                        class='bx bxs-star'></i> <i class='bx bx-star'></i> </div>
+                                            </div>
+                                
+                                         
+                                                    <%if(user){%>
+                                                        <div class="buttons d-flex flex-row mt-5 gap-3"> <button class="btn btn-dark"
+                                                            onclick="addtoCart('<%-product._id%>')">Add to Cart</button> </div>
+                                                        <%}else{%>
+                                                            <div class="buttons d-flex flex-row mt-5 gap-3"> <button
+                                                                class="btn btn-outline-dark">Buy
+                                                                Now</button> <button class="btn btn-dark"
+                                                                onclick="displayErr()" data-bs-toggle="modal" data-bs-target="#exampleModal">Add to Cart</button> </div>
+                                                          <%}
+                                                          
+                                                          %>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </section>
+
+
+                    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+                    <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+                    <script src="/javascripts/zoomsl.min.js"></script>
+
+                    <script>
+                     $(document).ready(function(){
+                        $('#zoom').imagezoomsl()
+                     })
+
+
+                        function changeImage(element) {
+                            var main_prodcut_image = document.getElementById('zoom');
+                            main_prodcut_image.src = element.src;
+                        }
+
+
+                        function myFunction() {
+                            var dots = document.getElementById("dots");
+                            var moreText = document.getElementById("more");
+                            var btnText = document.getElementById("myBtn");
+
+                            if (dots.style.display === "none") {
+                                dots.style.display = "inline";
+                                btnText.innerHTML = "Read more";
+                                moreText.style.display = "none";
+                            } else {
+                                dots.style.display = "none";
+                                btnText.innerHTML = "Read less";
+                                moreText.style.display = "inline";
+                            }
+                        }
+
+      function displayErr(){
+      let cls =document.getElementById('logInErrDiv').classList
+      cls.remove('clr')
+     }
+
+                        function addtoCart(proId) {
+
+                            $.ajax({
+                                url: '/addToCart/' + proId,
+                                method: 'get',
+                                success: (response) => {
+                                    swal("Good job!", "Item added to Cart!", "success").then(()=>{
+                                        location.reload()
+                                    })
+
+                                    if (response.status) {
+                                        let count = $('#cartCount').html()
+                                        count = parseInt(count) + 1
+                                        $('#cartCount').html(count)
+
+                                    }
+                                }
+                            })
+
+                        }
+
+
+
+                        $('#loginForm').submit((e)=>{
+    e.preventDefault()
+    $.ajax({
+      url:'/login',
+      method:'post',
+      data:$('#loginForm').serialize(),
+      success:(response)=>{
+        if(response.status){
+         location.href='/userPanel'
+        }else if(response.blocked){
+          let err=document.getElementById('loginErrDiv').classList
+          err.remove('clr')
+          let cls =document.getElementById('logInErrDiv').classList
+          cls.add('clr')
+          document.getElementById('loginErr').innerHTML='This User is Blocked'
+        }else{
+          let cls =document.getElementById('logInErrDiv').classList
+          cls.add('clr')
+          let err=document.getElementById('loginErrDiv').classList
+          err.remove('clr')
+          document.getElementById('loginErr').innerHTML='Incorrect Email or Password'
+        }
+    
+      }
+    })
+  })
+
+                        
+                    </script>
+
+
+                    </body>
+
+                    </html>

@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Gadjets For You</title>
+    <link rel='stylesheet' href='/stylesheets/userProfile.css' />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css" rel="stylesheet"
+    
+    integrity="sha384-iYQeCzEYFbKjA/T2uDLTpkwGzCiq6soy8tYaI1GyVh/UjpbCx/TYkiZhlZB6+fzT" crossorigin="anonymous">
+
+ 
+
+  </head>
+  <body>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-u1OknCvxWvY5kfmNBILK2hRnQC3Pr17a+RTT6rIHI7NnikvbZlHgTPOOmMi466C8"
+    crossorigin="anonymous"></script>
+    
+    <script src='https://kit.fontawesome.com/a076d05399.js' crossorigin='anonymous'></script>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+      <div class="container-fluid">
+        <a class="navbar-brand" href="/userPanel">Gadjets For You</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+          <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+            <li class="nav-item">
+              <a class="nav-link active" aria-current="page" href="/userPanel">Home</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link active" href="">Wishlist</a>
+            </li>
+          
+            <li class="nav-item">
+
+              <a class="nav-link active" href="/cart">Cart
+                <%if(cartCount>=1){%>
+                  <span style="background-color: rgb(233, 68, 23);" class="badge" id="cartCount"><%-cartCount%></span>
+                 <%} %>  </a>           
+                </li>
+          </ul>
+          
+          <form action="" class="me-2 my-1">
+            <div class="searchbar">
+              <input class="search_input" type="text" name="" placeholder="Search...">
+              <a href="" class="search_icon"><i class="fas fa-search"></i></a>
+            </div>
+          </form>
+        
+    
+
+          <div class="dropdown">
+            <a class="btn btn-info dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-expanded="false">
+              <%-user.username%>
+            </a>
+          
+            <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+              <li><a class="dropdown-item" href="/userProfile">Profile</a></li>
+              <li><a class="dropdown-item" href="/userOrders">Orders</a></li>
+              <li><a class="dropdown-item" href="/cart">Cart</a></li>
+              <li><a class="dropdown-item" href="/logout">logout</a></li>
+            </ul>
+          </div>
+
+        </div>
+      </div>
+    </nav>

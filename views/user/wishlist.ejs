@@ -1,0 +1,151 @@
+<%-include('../partials/users/userHeader')%>
+   
+<style>
+    .product-grid .product-links li a:hover{
+  color: #fff !important;
+  background: #cf1515 !important;
+  box-shadow: 1px 1px 30px 0 rgba(0, 0, 0, 0.2) !important;
+}
+
+.wishlist-empty{
+    width: 20%;
+    display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.bgred{
+    color: #fff !important;
+    background-color: #19db50 !important;
+    box-shadow: 1px 1px 30px 0 rgba(0, 0, 0, 0.2) !important;
+}
+
+
+
+</style>
+<section style="background-color: rgb(255, 255, 255);">
+    <div class="text-center container py-5">
+      <h4 class="mt-5 mb-5"><strong>Wishlist</strong></h4>
+  
+      <div class="row">
+        <%if(wishlist.length > 0){%>
+            <%for(var i=0;i< wishlist.length;i++){%>
+            
+            <div class="col-md-3 col-sm-6 mb-3">
+                <div class="product-grid">
+
+                  <div class="product-image d-flex justify-content-center p-2">
+        
+                    <%if(wishlist[i].product.offer> 0){%>
+                      <div class="badge-overlay">
+                        <span class="top-right badge red">
+                          <%-wishlist[i].product.offer%> % offer
+                        </span>
+                      </div>
+                      <%}%>
+
+                        <div class="img-container">
+                          <a href="/displayProduct/<%-wishlist[i].product._id%>" class="image">
+                            <img class="pic-1" src="/uploads/<%-wishlist[i].product.images[0].filename%>">
+                          </a>
+                        </div>
+                       
+                        <ul class="product-links">
+                        <li><a onclick="removeWishlist('<%-wishlist[i].product._id%>')" data-tip="Remove" ><i class="remove fa fa-trash"></i></a></li>
+                       <br><li class="mt-3"><a onclick="addToCart('<%-wishlist[i].product._id%>')" data-tip="Add to Cart"><i
+                            class="fas fa-cart-plus" ></i></a></li>
+                          </ul>
+                  </div>
+                  <div class="product-content">
+                    <ul class="rating">
+                      <li class="fas fa-star"></li>
+                      <li class="fas fa-star"></li>
+                      <li class="fas fa-star"></li>
+                      <li class="far fa-star"></li>
+                      <li class="far fa-star"></li>
+                    </ul>
+                    <h3 class="title"><a href="">
+                        <%-wishlist[i].product.name.slice(0,40)%>
+                      </a></h3>
+                    <%if(wishlist[i].product.price===wishlist[i].product.finalPrice ){%>
+                      <span class="text text-danger fw-bold" style="font-size: 1.875em;"> ₹<%-wishlist[i].product.finalPrice%>
+                          </span>
+                      <%}else{%>
+                        <div><span class="text text-success fw-bold"><del>₹<%-wishlist[i].product.price%></del>
+                            <span class="text text-danger fw-bold" style="font-size: 1.875em;"> ₹
+                              <%-wishlist[i].product.finalPrice%></span></div>
+                              <%} %>
+                  </div>
+                  
+
+                </div>
+              </div>
+          <%}%>
+            <%}else{%>
+                <div class="container">
+
+                <h1 class="fw-bold mb-3">Your Wishlist is Empty</h1>
+                
+                <img class="wishlist-empty" src="/images/icons/wishlist empty.png" alt="">
+               <a class="btn btn-success mt-3" href="/userPanel">Go Shop</a>
+            
+            </div>
+             
+                    
+                <%}
+        
+        %>
+        
+
+      </div>
+    </div>
+  </section>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+  <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+  <script>
+      
+      function removeWishlist(proId){
+        $.ajax({
+                url: '/addToWishlist/' + proId,
+                method: 'get',
+                success: (response) => {
+                  console.log(response.added)
+                   if(response.deleted){
+                    swal("Removed", "Item removed From Wishlist!", "warning").then(() => {
+                    location.reload()
+                    })
+                  }
+                  
+
+
+
+                }
+              })
+
+
+      }
+
+      function addToCart(proId) {
+              $.ajax({
+                url: '/addToCart/' + proId,
+                method: 'get',
+                success: (response) => {
+                  
+                  swal("Good job!", "Item added to Cart!", "success").then((value) => {
+
+                    location.reload()
+                  })
+
+
+
+                }
+              })
+
+            }
+      
+  </script>
+
+        </body>
+
+        </html>

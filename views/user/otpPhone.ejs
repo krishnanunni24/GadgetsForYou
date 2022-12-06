@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>
+    Phone Number
+  </title>
+  <link rel='stylesheet' href='/stylesheets/signup.css' />
+  <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+  <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+  <!------ Include the above in your HEAD tag ---------->
+</head>
+
+<body>
+
+
+  <div class="loginBox"> <img class="user" src="https://assets.dryicons.com/uploads/icon/svg/8850/9287dd75-92a7-4815-bf6c-d57b3104388a.svg" height="100px" width="100px">
+    <h3 class="text-white">Mobile Number</h3>
+
+    <form action="/otpLogin" id="myform" method="post">
+
+      <div class="inputBox">
+
+        <div>
+          <%-include("../flashes/flash")%>
+        </div>
+        
+          <div id="phoneSpan"></div>
+
+          <input id="phone" type="Number" name="phone" placeholder="Phone Number" required="true"
+            onkeyup="phoneValidation()">
+        </div>
+        <%if(otpErr){ %>
+          <p class="text" style="color: red;">*Invalid OTP</p>
+            <%} %>
+
+        <div class="text-center"><button style="background-color:#10903d;" type="submit"
+            class="btn btn-color px-5 mb-3 w-100">Submit</button></div>
+
+      </div>
+
+    </form>
+
+
+  </div>
+
+  <script>
+
+    function phoneValidation() {
+      const phone = document.getElementById('phone').value.trim()
+      let spanPhone = document.getElementById('phoneSpan')
+      if (phone.length==10) {
+        spanPhone.innerHTML = 'Phone No is Valid'
+        spanPhone.style.color = 'green'
+      } else {
+        spanPhone.innerHTML = 'Phone number is not Valid'
+        spanPhone.style.color = 'red'
+      }
+    }
+
+  </script>
+
+
+
+
+</body>
+
+</html>

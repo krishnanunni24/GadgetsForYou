@@ -1,0 +1,136 @@
+<%-include('../partials/admin/adminHeader')%>
+<%-include('../partials/admin/adminSideNav')%>
+
+<link rel="stylesheet" href="https://cdn.datatables.net/1.12.1/css/dataTables.bootstrap5.min.css">
+ <script src="https://cdn.datatables.net/1.12.1/js/jquery.dataTables.min.js"></script>
+
+
+
+        <!-- /#sidebar-wrapper -->
+        <!-- Page Content -->
+        <div id="page-content-wrapper">
+            <nav class="navbar navbar-expand-lg bg-light">
+                <div class="container-fluid">
+                    <a class="navbar-brand" href="#">Catagory Management</a>
+                    <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                        data-bs-target="#navbarScroll" aria-controls="navbarScroll" aria-expanded="false"
+                        aria-label="Toggle navigation">
+                        <span class="navbar-toggler-icon"></span>
+                    </button>
+                    <div class="collapse navbar-collapse d-flex justify-content-end" id="navbarScroll">
+
+                        <!-- Button trigger modal -->
+                        <a href="/admin/addCatagory"><button type="button" class="btn btn-success">
+                                Add Catagory
+                            </button></a>
+
+
+                    </div>
+
+                  
+
+                </div>
+                
+            </nav>
+
+            <div>
+                <%-include("../flashes/flash")%>
+              </div>
+
+            <div class="container mt-5 mb-5 p-0 bg-light">
+
+                <table class="table" id="example">
+                    <thead class="table-dark">
+                        <tr>
+                            <th scope="col">No</th>
+                            <th scope="col">Catagory Name</th>
+                            <th scope="col">Offer</th>
+                            <th scope="col">Images</th>
+                            <th scope="col">Edit/Delete</th>
+
+
+                        </tr>
+
+                    </thead>
+                    <tbody>
+
+                        <% for(var i=0;i< catagory.length;i++) {%>
+
+                            <tr>
+                                <td>
+                                    <%-i+1 %>
+                                </td>
+
+                                <td>
+                                    <%-catagory[i].name%>
+                                </td>
+
+                                <td>
+                                    <%-catagory[i].catagoryOffer%>
+                                </td>
+
+                                <td>
+                                    
+                                        <img src="/uploads/<%-catagory[i].filename%>" alt=""
+                                            style="width: 50px;height: 50px;">
+                                            
+                                </td>
+                                
+                                <td>
+                                    <a href="/admin/editCatagory/<%-catagory[i]._id%>"><button
+                                            class="btn mt-2 me-2 btn-outline-primary" type="submit">Edit</button></a>
+                                    <button class="btn mt-2 me-2 btn-outline-danger"
+                                            onclick="confirmation('<%-catagory[i]._id%>')"
+                                            type="submit">Delete</button>
+                                </td>
+
+                            </tr>
+                            <%} %>
+
+                        
+                            
+                    </tbody>
+                </table>
+
+            </div>
+        </div>
+        <!-- /#page-content-wrapper -->
+        </div>
+        <!-- /#wrapper -->
+        <!-- jQuery -->
+        <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+
+<script>
+
+
+$(document).ready(function () {
+    $('#example').DataTable();
+});
+   
+   function confirmation(catId){
+      swal({
+  title: "Are you sure?",
+  icon: "warning",
+  buttons: true,
+  dangerMode: true,
+})
+.then((willDelete) => {
+  if (willDelete) {
+    console.log('hi')
+     $.ajax({
+      url:'/admin/deleteCatagory/'+catId,
+      method:'get',
+      success:(response)=>{
+        location.reload()
+      }
+     })
+  }
+  
+});
+    }
+</script>
+ 
+
+        </body>
+
+        </html>

@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>
+    Sign-Up
+  </title>
+  <link rel='stylesheet' href='/stylesheets/signup.css' />
+  <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+  <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+  <!------ Include the above in your HEAD tag ---------->
+</head>
+
+<body>
+
+  <div class="loginBox"> <img class="user" src="https://i.ibb.co/yVGxFPR/2.png" height="100px" width="100px">
+    <h3 class="text-white">Sign-Up here</h3>
+
+    <form action="/signup" id="myform" method="post">
+
+      <div class="inputBox">
+        <div>
+          <div id="nameSpan"></div>
+          <input id="username" type="text" name="username" placeholder="Username" required="true"
+            onkeyup="nameValidation()">
+        </div>
+
+        <div>
+
+          <div id="passwordSpan"></div>
+          <input id="password" type="password" name="password" placeholder="Password" required="true"
+            onkeyup="passwordValidation()">
+        </div>
+
+        <div>
+
+          <div id="confirmPasswordSpan"></div>
+          <input id="confirmpassword" type="password" placeholder="Confirm Password" required="true" onkeyup="confirmPasswordValidation()">
+
+        </div>
+
+        <div>
+          <div id="emailSpan"></div>
+          <input id="email" type="text" name="email" placeholder="email ID" required="true" onkeyup="emailValidation()">
+        </div>
+
+        <div>
+          <div id="phoneSpan"></div>
+
+          <input id="phone" type="text" name="phone" placeholder="Phone Number" required="true"
+            onkeyup="phoneValidation()">
+        </div>
+
+        <div class="text-center"><button style="background-color:#10903d;" type="submit"
+            class="btn btn-color px-5 mb-3 w-100">Sign Up</button></div>
+
+      </div>
+
+    </form>
+
+    <div class="text-center">
+      <a href="/login">
+        <p style="color: #dddddd;">Already a user? login</p>
+      </a>
+    </div>
+
+  </div>
+
+  <script>
+
+
+    function nameValidation() {
+      const name = document.getElementById('username').value.trim()
+      const spanName = document.getElementById('nameSpan')
+      if (name.length > 0) {
+        spanName.innerHTML = 'Name is valid'
+        spanName.style.color = 'green'
+        return true
+      }
+
+      else {
+        spanName.innerHTML = 'Username is Required'
+        spanName.style.color = 'red'
+        return false
+      }
+
+
+    }
+
+    function passwordValidation() {
+      const password = document.getElementById('password').value.trim()
+      let spanPassword = document.getElementById('passwordSpan')
+      if (password.length >=6) {
+        spanPassword.innerHTML = 'Password is valid'
+        spanPassword.style.color = 'green'
+      }
+      else {
+        spanPassword.innerHTML = '6 Letter Password is required'
+        spanPassword.style.color = 'red'
+      }
+
+    }
+
+    function confirmPasswordValidation() {
+      const password = document.getElementById('password').value.trim()
+      const confirmPassword = document.getElementById('confirmpassword').value.trim()
+      let spanConfirmPassword = document.getElementById('confirmPasswordSpan')
+      if (confirmPassword.length >=6 && confirmPassword==password ) {
+        spanConfirmPassword.innerHTML = 'Passwords match'
+        spanConfirmPassword.style.color = 'green'
+      }
+      else {
+        spanConfirmPassword.style.color = 'red'
+        spanConfirmPassword.innerHTML = 'Passwords not matching'
+        
+      }
+
+    }
+
+
+    function emailValidation() {
+      const email = document.getElementById('email').value.trim()
+      let spanEmail = document.getElementById('emailSpan')
+      if (email.length > 9) {
+        spanEmail.innerHTML = 'Email is valid'
+        spanEmail.style.color = 'green'
+      }
+      else {
+        spanEmail.innerHTML = 'Valid Email is required'
+        spanEmail.style.color = 'red'
+      }
+
+    }
+
+    function phoneValidation() {
+      const phone = document.getElementById('phone').value.trim()
+      let spanPhone = document.getElementById('phoneSpan')
+      if (phone.length==10) {
+        spanPhone.innerHTML = 'Phone No is Valid'
+        spanPhone.style.color = 'green'
+      } else {
+        spanPhone.innerHTML = 'Phone number is not Valid'
+        spanPhone.style.color = 'red'
+      }
+    }
+
+  </script>
+
+
+
+
+</body>
+
+</html>

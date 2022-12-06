@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>User-Log-in</title>
+    <link rel='stylesheet' href='/stylesheets/signup.css' />
+</head>
+
+<body>
+
+    <div class="loginBox"> <img class="user" src="https://i.ibb.co/yVGxFPR/2.png" height="100px" width="100px">
+        <%if(userBlocked === true){%>
+            <div>
+                <p class="text" style="color: red;">*This user is blocked By Admin</p>
+            </div>
+            <%}
+            %>
+       
+        <form action="/login" method="post">
+
+            <div class="inputBox">
+                <div id="emailSpan"></div>
+                <input id="email" type="text" name="email" placeholder="Email" required="true"
+                    onkeyup="emailValidation()">
+
+                <div id="passwordSpan"></div>
+                <input id="password" type="password" name="password" placeholder="Password" required="true"
+                    onkeyup="passwordValidation()">
+            </div>
+            <input type="submit" name="submit" value="Login"></a>            
+        </form>
+         <%if(loggInErr){ %>
+       <p class="text" style="color: red;">*Invalid email or password</p>
+         <%} %>
+        <h6 class="text-forget" >Forget Password?</h6>
+
+        <div class="row-login">
+            <div><a href="/signup"><p>Register Here</p></a></div>
+            <div><a href="/otpPhone"><p>OTP Login</p></a></div>
+        </div>
+
+       
+        
+
+
+
+    </div>
+</body>
+
+</html>
+
+<script>
+
+    function emailValidation() {
+        const email = document.getElementById('email').value.trim()
+        let spanEmail = document.getElementById('emailSpan')
+        if (email.length >= 9) {
+            spanEmail.innerHTML = 'Email is valid'
+            spanEmail.style.color = 'green'
+        }
+        else {
+            spanEmail.innerHTML = 'Valid Email is required'
+            spanEmail.style.color = 'red'
+        }
+
+    }
+    function passwordValidation() {
+        const password = document.getElementById('password').value.trim()
+        let spanPassword = document.getElementById('passwordSpan')
+        if (password.length >= 6) {
+            spanPassword.innerHTML = 'Password is valid'
+            spanPassword.style.color = 'green'
+        }
+        else {
+            spanPassword.innerHTML = '6 Letter Password is required'
+            spanPassword.style.color = 'red'
+        }
+
+    }
+
+</script>

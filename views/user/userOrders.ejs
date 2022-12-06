@@ -1,0 +1,306 @@
+<%-include('../partials/users/userProfileHeader')%>
+    <%-include('../partials/users/userProfileNav')%>
+
+
+
+
+
+        <div class="col-md-8">
+            <section class="h-100 gradient-custom">
+                <div class="container h-100">
+                    <div class="row d-flex justify-content-center align-items-center h-100">
+
+                        <div class="col-lg-10 col-xl-12">
+
+                            <%if(orderDetails.length < 1){%>
+                                <div class="container-fluid d-flex align-items-center">
+                                    <img src="/images/icons/Order-Not yet.png" alt="">
+                                    <div class="row">
+                                        <h3 class="text fw-bold lead"> You haven't Ordered Anything yet!</h3> 
+                                        <a class="btn btn-primary" href="/userPanel">Shop<i class="fa fa-shopping-cart" style="font-size:24px"></i>
+                                        </a>
+                                        
+                                    </div>
+
+                                </div>
+                                <%}else{%>
+                                    
+                                    
+
+                            <%for(var i=orderDetails.length-1; i >=0  ; i--){%>
+                                <div class="card my-4" style="border-radius: 10px;">
+                                    <div class="card-header px-4 py-5">
+                                        <h5 class="text-muted mb-0"> <strong>Order Date :</strong>
+                                            <%-orderDetails[i].placedDate%>
+                                        </h5>
+                                    </div>
+
+
+                                    <div class="card-body p-4">
+
+                                        <%for(var k=0; k < orderDetails[i].products.length ; k++){%>
+
+                                            <div class="card shadow-0 border mb-4">
+                                                <div class="card-body">
+                                                    <div class="row">
+                                                        <div class="col-md-2">
+                                                            <img src="/uploads/<%-orderDetails[i].products[k].product.images[0].filename%>"
+                                                                class="img-fluid" alt="Phone">
+                                                        </div>
+                                                        <div
+                                                            class="col-md-2 text-center d-flex justify-content-center align-items-center">
+                                                            <p class="text-muted mb-0">
+                                                                <%-orderDetails[i].products[k].product.name.slice(0,30)%>
+                                                            </p>
+                                                        </div>
+                                                        <div
+                                                            class="col-md-2 text-center d-flex justify-content-center align-items-center">
+                                                            <p class="text-muted mb-0 small">
+                                                                <%-orderDetails[i].products[k].product.catagory%>
+                                                            </p>
+                                                        </div>
+
+                                                        <div
+                                                            class="col-md-2 text-center d-flex justify-content-center align-items-center">
+                                                            <p class="text-muted mb-0 small">Qty:
+                                                                <%-orderDetails[i].products[k].quantity%>
+                                                            </p>
+                                                        </div>
+                                                        <div
+                                                            class="col-md-2 text-center d-flex justify-content-center align-items-center">
+                                                            <p class="text-muted mb-0 small">₹
+                                                                <%-orderDetails[i].products[k].product.price%>
+                                                            </p>
+                                                        </div>
+                                                       
+                                                        <div
+                                                            class="col-md-2 text-center d-flex justify-content-center align-items-center">
+                                                          <a href="/displayProduct/<%-orderDetails[i].products[k].item%>" class="btn btn-block" style="background-color:#142e46;color:white; ;">View</a>
+                                                        </div>
+                                                    </div>
+
+                                                </div>
+                                            </div>
+                                            <%}%>
+
+
+
+                                                <div class="d-flex justify-content-between mb-5">
+                                                    <p class="text-muted mb-0"><strong>Delivery Details</strong> <br>
+                                                        <%-orderDetails[i].deliveryDetails.address%><br>
+                                                            <%-orderDetails[i].deliveryDetails.town%>,
+                                                                <%-orderDetails[i].deliveryDetails.city%>-
+                                                                    <%-orderDetails[i].deliveryDetails.pincode%>
+                                                                        <br>Phone:
+                                                                        <%-orderDetails[i].deliveryDetails.phone%>
+                                                    </p>
+                                                    <!-- <p class="text-muted mb-0"><span class="fw-bold me-4">Delivery
+                                                            Charges</span> ₹
+                                                        40
+                                                    </p> -->
+                                                </div>
+                                                <div class="d-flex justify-content-center mb-5">
+                                                    <%if(orderDetails[i].status === 'delivered'){%>
+    
+                                                        <div class=" card-timeline px-2 border-none" style="width: 100%;">
+                                                            <ul class="bs4-order-tracking">
+                                                                <li class="step active">
+                                                                    <div><i class="fas fa-user"></i></div> Order confirmed
+                                                                </li>
+                                                                <li class="step active">
+                                                                    <div><i class="fas fa-bread-slice"></i></div> Shipped
+                                                                </li>
+                                                                <li class="step active">
+                                                                    <div><i class="fas fa-truck"></i></div> Out for delivery
+                                                                </li>
+                                                                <li class="step active ">
+                                                                    <div><i class="fas fa-birthday-cake"></i></div>
+                                                                    Delivered
+                                                                </li>
+                                                            </ul>
+                                                            <a href="/invoice/<%-orderDetails[i]._id%>" class="btn btn-success">Invoice</button></a>
+
+                                                        </div>
+
+
+
+                                                        
+                                                        <%}else if(orderDetails[i].status=== 'shipped' ){%>
+                                                            <div class=" card-timeline px-2 border-none" style="width: 100%;">
+                                                                <ul class="bs4-order-tracking">
+                                                                    <li class="step active">
+                                                                        <div><i class="fas fa-user"></i></div> Order confirmed
+                                                                    </li>
+                                                                    <li class="step active">
+                                                                        <div><i class="fas fa-bread-slice"></i></div> Shipped
+                                                                    </li>
+                                                                    <li class="step">
+                                                                        <div><i class="fas fa-truck"></i></div> Out for delivery
+                                                                    </li>
+                                                                    <li class="step">
+                                                                        <div><i class="fas fa-birthday-cake"></i></div>
+                                                                        Delivered
+                                                                    </li>
+                                                                </ul>
+                                                            
+                                                            </div>
+
+
+                                                            
+                                                            <%}else if(orderDetails[i].status==='out for delivery'){%>
+                                                                <div class=" card-timeline px-2 border-none" style="width: 100%;">
+                                                                    <ul class="bs4-order-tracking">
+                                                                        <li class="step active">
+                                                                            <div><i class="fas fa-user"></i></div> Order confirmed
+                                                                        </li>
+                                                                        <li class="step active">
+                                                                            <div><i class="fas fa-bread-slice"></i></div> Shipped
+                                                                        </li>
+                                                                        <li class="step active">
+                                                                            <div><i class="fas fa-truck"></i></div> Out for delivery
+                                                                        </li>
+                                                                        <li class="step">
+                                                                            <div><i class="fas fa-birthday-cake"></i></div>
+                                                                            Delivered
+                                                                        </li>
+                                                                    </ul>
+                                                                
+                                                                </div>
+
+
+                                                                
+                                                                <%}else if(orderDetails[i].status==='Cancelled'){%>
+                                                                    <div class=" card-timeline px-2 border-none" style="width: 100%;">
+                                                                        <ul class="bs4-order-tracking">
+                                                                            <li class="step">
+                                                                                <div><i class="fas fa-user"></i></div> Order confirmed
+                                                                            </li>
+                                                                            <li class="step">
+                                                                                <div><i class="fas fa-bread-slice"></i></div> Shipped
+                                                                            </li>
+                                                                            <li class="step">
+                                                                                <div><i class="fas fa-truck"></i></div> Out for delivery
+                                                                            </li>
+                                                                            <li class="step">
+                                                                                <div><i class="fas fa-birthday-cake"></i></div>
+                                                                                Delivered
+                                                                            </li>
+                                                                        </ul>
+                                                                        <h4 class="text fw-bold text-danger">Cancelled</h4>
+                                                                    </div>
+
+
+                                                                    
+                                                                    <%}else if(orderDetails[i].status==='Cancelled by Admin'){%>
+                                                                    <div class=" card-timeline px-2 border-none" style="width: 100%;">
+                                                                        <ul class="bs4-order-tracking">
+                                                                            <li class="step">
+                                                                                <div><i class="fas fa-user"></i></div> Order confirmed
+                                                                            </li>
+                                                                            <li class="step">
+                                                                                <div><i class="fas fa-bread-slice"></i></div> Shipped
+                                                                            </li>
+                                                                            <li class="step">
+                                                                                <div><i class="fas fa-truck"></i></div> Out for delivery
+                                                                            </li>
+                                                                            <li class="step">
+                                                                                <div><i class="fas fa-birthday-cake"></i></div>
+                                                                                Delivered
+                                                                            </li>
+                                                                        </ul>
+                                                                        <h4 class="text fw-bold text-danger">Cancelled By Admin</h4>
+
+                                                                    </div>
+
+
+                                                                    
+                                                                    <%}else{%>
+                                                                        <div class=" card-timeline px-2 border-none" style="width: 100%;">
+                                                                            <ul class="bs4-order-tracking">
+                                                                                <li class="step active">
+                                                                                    <div><i class="fas fa-user"></i></div> Order confirmed
+                                                                                </li>
+                                                                                <li class="step">
+                                                                                    <div><i class="fas fa-bread-slice"></i></div> Shipped
+                                                                                </li>
+                                                                                <li class="step">
+                                                                                    <div><i class="fas fa-truck"></i></div> Out for delivery
+                                                                                </li>
+                                                                                <li class="step">
+                                                                                    <div><i class="fas fa-birthday-cake"></i></div>
+                                                                                    Delivered
+                                                                                </li>
+                                                                            </ul>
+                                                                        
+                                                                        </div>
+    
+    
+                                                                        
+                                                                        <%}
+                                                                    
+                                                        %>
+                                                        
+
+                                                </div>
+
+                                                <%if(orderDetails[i].status == 'out for delivery' || orderDetails[i].status == 'shipped' || orderDetails[i].status == 'pending' || orderDetails[i].status == 'placed'){%>
+                                                    
+                                                <button class="btn btn-danger" onclick="cancelOrder('<%-orderDetails[i]._id%>')">Cancel Order</button> 
+                                                    
+                                                    <%}
+                                                %>
+
+
+                                    </div>
+                                    <div class="card-footer border-0 px-2 py-3"
+                                        style="background-color: #142e46; border-bottom-left-radius: 10px; border-bottom-right-radius: 10px;">
+                                        <h5
+                                            class="d-flex align-items-center justify-content-end text-white text-uppercase mb-0">
+                                            Total
+                                            paid: <span class="h2 mb-0 ms-2">₹ <%-orderDetails[i].total%></span></h5>
+                                    </div>
+
+                                </div>
+                                <%}%>
+
+                                
+                                <%}
+                            
+                                %>
+
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+
+        <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+
+        <script>
+            function cancelOrder(ordId){
+      swal({
+  title: "Are you sure?",
+  icon: "warning",
+  buttons: true,
+  dangerMode: true,
+})
+.then((willDelete) => {
+  if (willDelete) {
+     $.ajax({
+      url:'/cancelOrder/'+ordId,
+      method:'get',
+      success:(response)=>{
+        swal("Done","order cancelled","success")
+        location.reload()
+      }
+     })
+  }
+  
+});
+    }
+        </script>
+
+
+        </body>
+
+        </html>

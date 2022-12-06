@@ -1,0 +1,90 @@
+<%-include('../partials/users/userProfileHeader')%>
+<%-include('../partials/users/userProfileNav')%>
+
+
+        <div class="col-md-8">
+          <div class="card mb-3">
+            <div class="card-body">
+              
+              <form action="/editProfilePost" id="myform" method="post">
+
+                <div class="container">
+
+
+                  <!-- Form Name -->
+                  <legend>
+                    <h2 class="text-success mb-3"><b>Edit Profile</b></h2>
+                  </legend><br>
+
+
+                  <div class="form-group">
+                    <label class="col-md-4 control-label">Username</label>
+                    <div class="col-md-4 inputGroupContainer">
+                      <div class="input-group">
+                        <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
+                        <input name="name" class="form-control" value="<%-user.username%>"
+                          type="text">
+                      </div>
+                    </div>
+                  </div>
+
+
+
+                  <!-- Text input-->
+                  <div class="form-group">
+                    <label class="col-md-4 control-label">E-Mail</label>
+                    <div class="col-md-4 inputGroupContainer">
+                      <div class="input-group">
+                        <span class="input-group-addon"><i class="glyphicon glyphicon-envelope"></i></span>
+                        <input name="email"  class="form-control" type="email" value="<%-user.email%> ">
+                      </div>
+                    </div>
+                  </div>
+
+                  <!-- Text input-->
+
+                  <div class="form-group">
+                    <label class="col-md-4 control-label">Phone</label>
+                    <div class="col-md-4 inputGroupContainer">
+                      <div class="input-group">
+                        <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
+                        <input name="phone" value="<%-user.phone%>" class="form-control" type="number">
+                      </div>
+                    </div>
+                  </div>
+
+                  
+                  <div class="form-group">
+                    <button class="btn btn-info mt-2" type="submit">
+                       Edit
+                    </button>
+
+                  </div>
+
+                </div>
+            </div>
+
+
+
+
+            </form>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+
+
+
+
+  </div>
+  </div>
+
+  </div>
+  </div>
+
+
+  </body>
+
+  </html>

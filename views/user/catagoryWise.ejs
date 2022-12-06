@@ -1,0 +1,150 @@
+<%if(user){%>
+  <%-include('../partials/users/userHeader')%>
+  <%}else{%>
+    <%-include('../partials/users/landingHeader')%>
+    <%}
+
+%>
+  <div class="container-fluid">
+    <div id="carouselExampleIndicators" class="carousel slide" data-bs-ride="carousel">
+      <div class="carousel-indicators">
+        <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="0" class="active"
+          aria-current="true" aria-label="Slide 1"></button>
+        <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="1"
+          aria-label="Slide 2"></button>
+        <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="2"
+          aria-label="Slide 3"></button>
+      </div>
+      <div class="carousel-inner">
+        <div class="carousel-item active">
+          <img src="https://cdn.shopify.com/s/files/1/0057/8938/4802/files/diwali-banner_2000x.gif?v=1664442921"
+            class="d-block w-100" alt="...">
+        </div>
+        <div class="carousel-item">
+          <img
+            src="https://cdn.shopify.com/s/files/1/0057/8938/4802/files/SN-Desktop-Banner-Wave-Style_1_2000x.jpg?v=1663914840"
+            class="d-block w-100" alt="...">
+        </div>
+        <div class="carousel-item">
+          <img src="https://cdn.shopify.com/s/files/1/0057/8938/4802/files/DESKTOP-Banner-WB_4_2000x.gif?v=1664782144"
+            class="d-block w-100" alt="...">
+        </div>
+      </div>
+      <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators"
+        data-bs-slide="prev">
+        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+        <span class="visually-hidden">Previous</span>
+      </button>
+      <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleIndicators"
+        data-bs-slide="next">
+        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+        <span class="visually-hidden">Next</span>
+      </button>
+    </div>
+  </div>
+
+  <section style="background-color: rgb(255, 255, 255);">
+
+
+
+
+
+    
+
+        <%if(products?.length < 1){%>
+
+          <div class="container">
+
+            <div class="row jus">
+
+              <div class="col-6">
+
+                <img src="/images/icons/no result.webp" alt="">
+
+              </div>
+              <div class="col-6 d-flex align-items-center">
+
+              <h1 class="text fw-bold text-danger ms-5">Oops! No products Found in this Catagory</h1>
+
+              </div>
+
+
+            </div>
+
+           
+
+          </div>
+
+
+          <%}else{%>
+
+            <div class='container'>
+              <% for(var i=0;i< 1;i++) {%>
+                <h3 class="text  fw-bold mt-3">
+                  <%-products[i].catagory%> Collection
+                </h3>
+                <%} %>
+
+          <div class="row">
+
+           
+
+
+
+                <% for(var i=0;i< products.length;i++) {%>
+
+                  <div class="col-md-3 col-sm-6 mb-3">
+                    <div class="product-grid">
+              
+                      <div class="product-image d-flex justify-content-center p-2">
+                        <div class="img-container">
+                        <a href="/displayProduct/<%-products[i]._id%>" class="image">
+                          <img class="pic-1" src="/uploads/<%-products[i].images[0].filename%>">
+                        </a>
+                      </div>
+                        <!-- <span class="product-discount-label">-33%</span> -->
+                        <ul class="product-links">
+                          <li><a href="" data-tip="Add to Wishlist"><i class="fas fa-heart"></i></a></li>
+                          <li><a href="/addToCart/<%-products[i]._id%>" data-tip="Cart"><i class="	fas fa-cart-plus"></i></a></li>
+                          <li><a href="/displayProduct/<%-products[i]._id%>" data-tip="Quick View"><i class="fa fa-search"></i></a></li>
+                        </ul>
+                      </div>
+                      <div class="product-content">
+                        <ul class="rating">
+                          <li class="fas fa-star"></li>
+                          <li class="fas fa-star"></li>
+                          <li class="fas fa-star"></li>
+                          <li class="far fa-star"></li>
+                          <li class="far fa-star"></li>
+                        </ul>
+                        <h3 class="title"><a href=""><%-products[i].name.slice(0,40)%></a></h3>
+                        <div><span class="text text-success fw-bold"><del>₹<%-products[i].price%></del>
+                          <span class="text text-danger fw-bold" style="font-size: 1.875em;"> ₹
+                            <%-products[i].finalPrice%></span></div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <%} %>
+
+
+
+              <%} 
+                    
+                    
+            %>
+
+
+
+          </div>
+    </div>
+  </section>
+
+
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-u1OknCvxWvY5kfmNBILK2hRnQC3Pr17a+RTT6rIHI7NnikvbZlHgTPOOmMi466C8"
+    crossorigin="anonymous"></script>
+  </body>
+
+  </html>

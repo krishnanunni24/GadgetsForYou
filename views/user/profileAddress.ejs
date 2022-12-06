@@ -1,0 +1,123 @@
+<%-include('../partials/users/userProfileHeader')%>
+<%-include('../partials/users/userProfileNav')%>
+
+
+
+                <div class="col-md-8">
+                    <div class="card mb-3">
+                        <div class="card-body">
+
+                                <div class="container">
+
+                                    
+                                            <!-- Form Name -->
+                                            <legend>
+                                                <h2 class="text-success mb-3"><b>Address</b></h2>
+                                            </legend><br>
+
+
+
+
+
+
+                                            <!-- Text input-->
+                                            <div class="col-md-8">
+                                                <div class="card mb-4">
+                                                  <div class="card-header">
+                                                    <h5 class="mb-0">
+                                                      Address
+                                                    </h5>
+                                                  </div>
+                                      
+                                                   <%for(var i=0;i< address.length;i++){%>
+                                                  <div class="form-check p-1">
+                                                    <!-- <input class="form-check-input mx-2" type="radio" name="flexRadioDefault" id="flexRadioDefault1">
+                                                    <label class="form-check-label" for="flexRadioDefault1"> -->
+                                                       <strong> <%-address[i].address.name%></strong> <span class="badge bg-success">Home</span>
+                                                       <p class="m-0"><%-address[i].address.address%></p>
+                                                       <p class="m-0"><%-address[i].address.town%>,<%-address[i].address.city%>-<%-address[i].address.pincode%></p>
+                                      
+                                                       <h6 class="my-1"><%-address[i].address.phone%></h6>
+                                                       <div class="btns my-3">
+                                                        <button onclick="removeAddress('<%-address[i].address.id%>')" class="btn btn-outline-dark pb-2">Remove</button>
+                                                        <a href="/profileEditAddress/<%-address[i].address.id%>" class="btn btn-outline-dark pb-2"><i class="fa fa-edit"></i>
+                                                          Edit</a>
+
+                                                       </div>
+                                                       
+                                                      
+                                      
+                                                    </label>
+                                                  </div>
+                                                  <%} %>
+                                      
+                                                  <%if(address.length< 1 ){%>
+                                                    <div class="alert alert-danger mt-2" role="alert">
+                                                      <h5>No Address Added</h5>
+                                                    </div>
+                                                   
+                                                  <%} %>
+                                      
+                                                  <div class="alert alert-primary" role="alert">
+                                                    <i class="fas fa-plus"></i>
+                                                    <a href="/profileAddAddress" style="text-decoration: none;">Add Address</a>
+                                                  </div>
+                                                  
+                                                  
+                                                </div>
+
+
+
+                                            <!-- <textarea class="form-control" id="userAddres" rows="4" name="description" required="true"></textarea> -->
+
+
+                                            <!-- Button -->
+
+
+                                </div>
+                        </div><!-- /.container -->
+
+                    </div>
+                </div>
+
+
+
+
+
+            </div>
+        </div>
+
+    </div>
+    </div>
+  
+    <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+  
+  
+    <script>
+      function removeAddress(addId){
+        swal({
+  title: "Are you sure?",
+  icon: "warning",
+  buttons: true,
+  dangerMode: true,
+}).then((willDelete)=>{
+  if(willDelete){
+   $.ajax({
+    url:'/profileRemoveAddress/'+addId,
+    method:'get',
+    success:(response)=>{
+      swal("success", "Address Deleted", "success").then(()=>{
+        location.reload()
+      })
+
+    }
+   })
+  } 
+})
+      }
+    </script>
+
+    </body>
+
+    </html>
