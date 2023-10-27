@@ -3,7 +3,8 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "start": "nodemon ./bin/www"
+    "dev":"nodemon ./bin/www",
+    "start": "node app.js"
   },
   "dependencies": {
     "@paypal/paypal-js": "^5.1.1",
