@@ -2,9 +2,11 @@ const mongoClient =require('mongodb').MongoClient
 const state={
     db:null
 }
+require('dotenv').config()
+
 
 module.exports.connect=function(done){
-    const url="mongodb+srv://krishnanunni2424:catchmeifucan@cluster0.ysgrn8m.mongodb.net/"
+    const url=process.env.DATABASE_MONGO
     const dbname='ecommerce'
 
     mongoClient.connect(url,(err,data)=>{
