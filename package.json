@@ -1,10 +1,10 @@
 {
-  "name": "week-8",
+  "name": "gadgetsforyou",
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "dev":"nodemon ./bin/www",
-    "start": "node app.js"
+    "dev": "nodemon ./bin/www",
+    "start": "node ./bin/www"
   },
   "dependencies": {
     "@paypal/paypal-js": "^5.1.1",
@@ -29,5 +29,17 @@
     "sweetalert": "^2.1.2",
     "twilio": "^3.82.2",
     "uuidv4": "^6.2.13"
-  }
+  },
+  "main": "app.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/krishnanunni24/gadgetsforyou.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/krishnanunni24/gadgetsforyou/issues"
+  },
+  "homepage": "https://github.com/krishnanunni24/gadgetsforyou#readme",
+  "description": ""
 }
