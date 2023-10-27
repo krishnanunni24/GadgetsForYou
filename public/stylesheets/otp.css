@@ -2,7 +2,7 @@
     height: 100vh
 }
 
-.cardOtp {
+.card {
    
     width: 400px;
     border: none;
@@ -14,7 +14,7 @@
     align-items: center
 }
 
-.cardOtp h6 {
+.card h6 {
     color: red;
     font-size: 20px
 }
@@ -62,4 +62,16 @@ input[type=number]::-webkit-outer-spin-button {
     background-color: red;
     border: 1px solid red;
     width: 140px
+}
+
+body {
+    margin: 0;
+    padding: 0;
+    background: url(https://img.freepik.com/free-vector/modern-luxury-background-abstract_343694-1730.jpg?w=1060&t=st=1664946742~exp=1664947342~hmac=71a5732abfd88cea3017fa0e0527a902ef838151750cd5ec686d92d24c07c9fa) no-repeat;
+    height: 100vh;
+    font-family: sans-serif;
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+    overflow: hidden
 }

@@ -9,10 +9,10 @@ module.exports={
     addCatagory:(catagoryData,cImage)=>{
      return new Promise(async(resolve,reject)=>{
         catagoryData.filename=cImage.filename
-        console.log(catagoryData.catagoryOffer);
         db.get().collection(collection.CATAGORY_COLLECTION).insertOne(catagoryData)
         resolve()
      })
+    
     },
 
     getAllCatagory:()=>{
@@ -25,8 +25,7 @@ module.exports={
     editCatagory:(ID,catagoryData)=>{
         return new Promise(async(resolve,reject)=>{
             db.get().collection(collection.CATAGORY_COLLECTION).updateOne({_id:objectId(ID)},{$set:{
-                name:catagoryData.name,
-                catagoryOffer:catagoryData.catagoryOffer
+                name:catagoryData.name
             }})
             resolve()
         })
@@ -46,14 +45,6 @@ module.exports={
         return new Promise((resolve,reject)=>{
             db.get().collection(collection.CATAGORY_COLLECTION).deleteOne({_id:objectId(ID)})
             resolve()
-        })
-    },
-    getCatagoryOffer:(cat)=>{
-        return new Promise(async(resolve,reject)=>{
-            console.log('catagoryName:',cat)
-           let catagory= await db.get().collection(collection.CATAGORY_COLLECTION).findOne({name:cat})
-           console.log('catagory:',catagory)
-           resolve(catagory)
         })
     }
 }

@@ -5,213 +5,37 @@
     <link rel='stylesheet' href='/stylesheets/style.css' />
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css" rel="stylesheet"
     integrity="sha384-iYQeCzEYFbKjA/T2uDLTpkwGzCiq6soy8tYaI1GyVh/UjpbCx/TYkiZhlZB6+fzT" crossorigin="anonymous">
-    <script src="https://kit.fontawesome.com/25efafc796.js" crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js" integrity="sha384-oBqDVmMz9ATKxIep9tiCxS/Z9fNfEXiDAYTujMAeBAsjFuCZSmKbSSUnQlmh/jp3" crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.min.js" integrity="sha384-IDwe1+LCz02ROU9k972gdyvl+AESN10+x7tBKgc9I5HFtuNz0wWnPclzo6p9vxnk" crossorigin="anonymous"></script>
-    <script src="/javascripts/signUpValidation.js"></script>
-  
+    <script src='https://kit.fontawesome.com/a076d05399.js' crossorigin='anonymous'></script>
+
+    
+
   </head>
   <body>
-    <style>
-.modal-content {
-  width: 80%;
-  margin: 0 auto;
-}
-.modal-body {
-  padding: 0;
-}
-.btn-close {
-  position: absolute;
-  right: 0;
-  padding: 1em;
-}
-h1 {
-  font-size: 2.3em;
-  font-weight: bold;
-}
-.myform {
-  padding: 2em;
-  max-width: 100%;
-  color: #fff;
-  box-shadow: 0 4px 6px 0 rgba(15, 15, 21, 0.18);
-}
-@media (max-width: 576px) {
-  .myform {
-    max-width: 90%;
-    margin: 0 auto;
-  }
-}
-.form-control:focus {
-  box-shadow: inset 0 -1px 0 #7e7e7e;
-  background-color: inherit;
-  color: #fff;
-}
-.form-control {
-  background-color: inherit;
-  color: #fff;
-  padding-left: 0;
-  border: 0;
-  border-radius: 0;
-  border-bottom: 1px solid #fff;
-}
-.myform .btn {
-  width: 100%;
-  font-weight: 800;
-  background-color: #fff;
-  border-radius: 0;
-  padding: 0.5em 0;
-}
-.myform .btn:hover {
-  background-color: inherit;
-  color: #fff;
-  border-color: #fff;
-}
-p {
-  text-align: center;
-  padding-top: 2em;
-  color: grey;
-}
-p a {
-  color: #e1e1e1;
-  text-decoration: none;
-}
-p a:hover {
-  color: #fff;
-}
-input:-webkit-autofill,
-input:-webkit-autofill:hover,
-input:-webkit-autofill:focus,
-input:-webkit-autofill:active {
-    transition: background-color 5000s ease-in-out 0s;
-   
-}
-input:-webkit-autofill{
-    -webkit-text-fill-color: rgb(255, 255, 255) !important;
-}
-
-
-
-
-
-
-    </style>
-    <nav class="navbar fixed-top navbar-expand-lg navbar-dark bg-dark py-2">
+    <nav class="navbar fixed-top navbar-expand-lg navbar-dark bg-dark py-3">
       <div class="container-fluid">
-        <a class="navbar-brand" href="/">Gadgets For You</a>
+        <a class="navbar-brand" href="/">Gadjets For You</a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
           <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
           <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-            
-            
-          </ul>
-
-          <form action="/productSearch" method="get">
-            <div class="searchbar">
-              <input class="search_input" type="text" name="search" placeholder="Search...">
-              <a class="search_icon"><i class="fas fa-search"></i></a>
-            </div>
-          </form>
-
-          <button id="loginBtn" onclick="clrErr()" type="button" class="btn btn-dark my-2 me-2" data-bs-toggle="modal" data-bs-target="#exampleModal">
-            Login 
-          </button>
+            <li class="nav-item">
+              <!-- <a class="nav-link active" aria-current="page" href="#">Home</a> -->
+            </li>
+            <li class="nav-item">
+              <!-- <a class="nav-link" href="#">Link</a> -->
+            </li>
           
+            <li class="nav-item">
+              <!-- <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Disabled</a> -->
+            </li>
+          </ul>
+          <a href="/login"><button class="btn text-white">Login</button></a> 
+
+          <form class="d-flex">
+            <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+            <button class="btn btn-outline-success" type="submit">Search</button>
+          </form>
         </div>
       </div>
     </nav>
-
-    <!-- Modal -->
-<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-  <div class="modal-dialog modal-dialog-centered">
-    
-    <div class="modal-content border-0" style="background-color:transparent;">
-      <div id="logInErrDiv" class="clr alert bg-danger text-white mb-2 alert-dismissible fade show text-center border-danger border-4"  role="alert">
-        <strong id="logInErr">Login to add items into your Wishlist & Cart!</strong>
-      </div>
-      <div class="modal-body">
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-        <div class="myform bg-dark">
-            <h1 class="text-center">Login</h1>
-            <div id="loginErrDiv" class="clr alert alert-danger py-2 alert-dismissible fade show text-center"  role="alert">
-              <strong id="loginErr"></strong>
-            </div>
-            <form action="/login" method="post" id="loginForm">
-                <div class="mb-3 mt-4">
-                    <label for="exampleInputEmail1" class="form-label">Email address</label>
-                    <input type="email" class="form-control" id="exampleInputEmail1" name="email" aria-describedby="emailHelp" required="true">
-                </div>
-                <div class="mb-3">
-                    <label for="exampleInputPassword1" class="form-label">Password</label>
-                    <input type="password" name="password" class="form-control" id="exampleInputPassword1">
-                </div>
-                <button type="submit" class="btn btn-light mt-3">LOGIN</button>
-                <p>Not Registered yet?  <a id="SignUpBtn" class="text text-light" type="button"  data-bs-toggle="modal" data-bs-target="#signUpModal">Signup</a></p>
-            </form>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
-
-  <!-- SignUpModal -->
-
-<div class="modal fade" id="signUpModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-  <div class="modal-dialog modal-dialog-centered">
-    <div class="modal-content">
-      <div class="modal-body">
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-        <div class="myform bg-dark">
-            <h1 class="text-center">SignUp</h1>
-            <div id="SignupErrDiv" class="clr alert alert-danger py-2 alert-dismissible fade show text-center"  role="alert">
-              <strong id="SignUpErr"></strong>
-            </div>
-            <form action="/signup" method="post" id="signupForm">
-             
-                <div class="mt-1">
-                    <label for="inputName" class="form-label mt-1">Name</label>
-                    <input type="text" class="form-control" id="inputName" name="username" aria-describedby="nameHelp" required="true" onkeyup="nameValidation()">
-                </div>
-                <div id="nameDiv" class="mb-1"></div>
-
-                <div class="mt-1">
-                  <label for="inputEmail" class="form-label mt-1">Email ID</label>
-                  <input type="email" name="email" class="form-control" id="inputEmail" required="true" onkeyup="emailValidation()">
-              </div>
-              <div id="emailDiv" class="mb-1"></div>
-
-                <div class="mt-1">
-                    <label for="inputPassword" class="form-label mt-1">Password</label>
-                    <input type="password" name="password" class="form-control" id="inputPassword" required="true" onkeyup="passwordValidation()">
-                </div>
-                <div id="passwordDiv" class="mb-1"></div>
-
-                <div class="mt-1">
-                  <label for="inputConfirmPassword" class="form-label mt-1">Confirm Password</label>
-                  <input type="password" class="form-control" id="inputConfirmPassword" required="true"  onkeyup="confirmPasswordValidation()">
-              </div>
-              <div id="confirmPasswordDiv" class="mb-1"></div>
-
-      
-            <div class="mt-1">
-              <label for="inputPhone" class="form-label mt-1" >Phone Number</label>
-              <input type="number" name="phone" class="form-control" id="inputPhone" required="true" onkeyup="phoneValidation()">
-          </div>
-          <div id="phoneDiv" class="mb-1"></div>
-
-            
-                 
-                <button type="submit" class="btn btn-light mt-3">Submit</button>
-
-            </form>
-            <button class="btn" id="otpModalBtn" data-bs-toggle="modal" data-bs-target="#otpModal" hidden></button>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
-
-
-
- 

@@ -4,7 +4,7 @@ const state={
 }
 
 module.exports.connect=function(done){
-    const url='mongodb+srv://krishnanunni:catchmeifucan@cluster1.6hhjfqi.mongodb.net/test'
+    const url="mongodb+srv://krishnanunni2424:catchmeifucan@cluster0.ysgrn8m.mongodb.net/"
     const dbname='ecommerce'
 
     mongoClient.connect(url,(err,data)=>{

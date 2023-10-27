@@ -102,7 +102,17 @@
                                             </h2>
 
                                         </div>
-                                        
+                                        <!-- {{!-- <div class="box">
+                                  <div>
+                                      <ul class="list-inline">
+                                          <li class="list-inline-item"><i class="fab fa-github"></i></li>
+                                          <li class="list-inline-item"><i class="fab fa-linkedin-in"></i></li>
+                                          <li class="list-inline-item"><i class="fab fa-instagram"></i></li>
+                                          <li class="list-inline-item"><i class="fab fa-twitter"></i></li>
+                                      </ul>
+      
+                                  </div>
+                              </div> --}} -->
 
 
                                     </div>
@@ -140,13 +150,67 @@
                                             </h2>
 
                                         </div>
-                                      
+                                        <!-- {{!-- <div class="box">
+                                  <div>
+                                      <ul class="list-inline">
+                                          <li class="list-inline-item"><i class="fab fa-github"></i></li>
+                                          <li class="list-inline-item"><i class="fab fa-linkedin-in"></i></li>
+                                          <li class="list-inline-item"><i class="fab fa-instagram"></i></li>
+                                          <li class="list-inline-item"><i class="fab fa-twitter"></i></li>
+                                      </ul>
+      
+                                  </div>
+                              </div> --}} -->
 
 
                                     </div>
                                 </div>
                             </div>
-                           
+                            <!-- {{!-- <div class="col">
+                      <div class="card h-100 shadow-sm">
+                          <div class="text-center">
+                         
+      
+                              <div class="img-hover-zoom img-hover-zoom--colorize">
+                                  <img class="shadow" src="https://source.unsplash.com/B4TjXnI0Y2c/600x600"
+                                      alt="Another Image zoom-on-hover effect">
+                              </div>
+      
+                          </div>
+                       
+                          <div class="card-body">
+                              <div class="clearfix mb-3">
+      
+      
+                              </div>
+      
+      
+                              <div class="my-2 text-center">
+      
+                                  <h1>O-Ren Ishii</h1>
+      
+                              </div>
+                              <div class="mb-3">
+      
+                                  <h2 class="text-uppercase text-center role">Web Developer</h2>
+      
+                              </div>
+                              <div class="box">
+                                  <div>
+                                      <ul class="list-inline">
+                                          <li class="list-inline-item"><i class="fab fa-github"></i></li>
+                                          <li class="list-inline-item"><i class="fab fa-linkedin-in"></i></li>
+                                          <li class="list-inline-item"><i class="fab fa-instagram"></i></li>
+                                          <li class="list-inline-item"><i class="fab fa-twitter"></i></li>
+                                      </ul>
+      
+                                  </div>
+                              </div>
+      
+                          
+                          </div>
+                      </div>
+                  </div> --}} -->
                         </div>
                     </div>
 
@@ -154,22 +218,20 @@
 
                 </div>
 
-            </section>
-
         </div>
 
 
         <section class="bg-white py-5 mx-3">
             <div class="row">
-                <div class="col-lg-5 mt-5" style="width: 70%;">
+                <div class="col-lg-5" style="width: 50%;">
                     <canvas id="bar-chart"></canvas>
                 </div>
-                <div class="col-lg-5 mt-5" style="width: 70%;">
+                <div class="col-lg-5" style="width: 50%;">
                     <canvas id="circle-chart"
                         style="display: block; box-sizing: border-box; height: 310px; width: 450px;"></canvas>
                 </div>
             </div>
-            <div class="col-lg-5 mt-5" style="width: 100%;">
+            <div class="col-lg-5" style="width: 60%;">
                 <canvas id="finalchart"
                     style="display: block; box-sizing: border-box; height: 310px; width: 450px;"></canvas>
             </div>
@@ -246,13 +308,13 @@
                             labels: months,
                             datasets: [{
                                 label: 'Monthly sales',
-                                backgroundColor: ["blue","red","yellow"],
+                                backgroundColor: "blue",
                                 borderColor: 'rgb(255, 99, 132)',
                                 data: monthlyProfit,
                             }]
                         };
                         const monthlyconfig = {
-                            type: 'doughnut',
+                            type: 'bar',
                             data: data1,
                             options: {}
                         };

@@ -8,7 +8,7 @@ var objectId=require('mongodb').ObjectId
 module.exports={
     addProduct:(product,pImages)=>{
       return new Promise((resolve,reject)=>{
-        product.images=pImages.map(f=>({filename:f.filename,id:objectId()}))
+        product.images=pImages.map(f=>({filename:f.filename}))
         db.get().collection(collection.PRODUCT_COLLECTION).insertOne(product)
         resolve()
       })
@@ -20,9 +20,9 @@ module.exports={
         resolve(products)
      })
     },
-    getProduct:(proId)=>{
+    getProduct:(userId)=>{
       return new Promise(async(resolve,reject)=>{
-        let product=await db.get().collection(collection.PRODUCT_COLLECTION).findOne({_id:objectId(proId)})
+        let product=await db.get().collection(collection.PRODUCT_COLLECTION).findOne({_id:objectId(userId)})
         resolve(product)
       })
     },
@@ -33,11 +33,7 @@ module.exports={
           catagory:userData.catagory,
           stocks:userData.stocks,
           price:userData.price,
-          description:userData.description,
-          finalPrice:userData.finalPrice,
-          offer:userData.offer,
-          catagoryOffer:userData.catagoryOffer
-
+          description:userData.description
         }})
         resolve(product.insertedId)
       })
@@ -75,32 +71,20 @@ module.exports={
         }
       })
     },
-     updateProductCatagory:(catagoryName,name,offer)=>{
+    updateProductCatagory:(catagoryName,updation)=>{
       return new Promise(async(resolve,reject)=>{
          let product= await db.get().collection(collection.PRODUCT_COLLECTION).find({catagory:catagoryName}).toArray()
          console.log("product",product)
          console.log("catagoryName",catagoryName)
 
          if(product){
-          db.get().collection(collection.PRODUCT_COLLECTION).updateMany({catagory:catagoryName},{$set:{catagory:name,catagoryOffer:offer}}).then(()=>{
+          db.get().collection(collection.PRODUCT_COLLECTION).updateMany({catagory:catagoryName},{$set:{catagory:updation}}).then(()=>{
             resolve()
           })
          }else{
            resolve()
          }
          
-      })
-    },
-    getSearchedProducts:(query)=>{
-      return new Promise(async(resolve,reject)=>{
-       let products=await db.get().collection(collection.PRODUCT_COLLECTION).find({name:{'$regex':query,'$options' : 'i'}}).toArray()
-       if(products.length >0){
-        resolve(products)
-        console.log('resolve')
-       }else{
-        console.log('reject')
-        reject()
-       }
       })
     }
 }

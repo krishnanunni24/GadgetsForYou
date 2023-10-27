@@ -4,7 +4,6 @@ const { ORDER_COLLECTION } = require('../config/collection')
 const { resolveInclude } = require('ejs')
 var objectId=require('mongodb').ObjectId
 const Razorpay = require('razorpay');
-const { resolve } = require('path')
 
 //razorPay 
 var instance = new Razorpay({
@@ -26,9 +25,8 @@ module.exports={
         status:status,
         products:data.products,
         total:parseInt(data.totalPrice) ,
-        placedDate:new Date().toDateString()
+        placedDate:new Date()
     }   
-    console.log('Placed date:',orderObj.placedDate)
     return new Promise(async(resolve,reject)=>{
      db.get().collection(collection.ORDER_COLLECTION).insertOne(orderObj).then(async(response)=>{
         let order=await db.get().collection(collection.ORDER_COLLECTION).findOne(response.insertedId)
@@ -148,27 +146,10 @@ module.exports={
         })
     })
    },
-   addRazorOrder:(data)=>{
-    return new Promise((resolve,reject)=>{
-        console.log('B order:',data)
-        data._id=objectId(data._id)
-        data.userId=objectId(data.userId)
-        db.get().collection(collection.ORDER_COLLECTION).insertOne(data).then(()=>{
-            console.log('A order:',data)
-            resolve()
-        })
-    })
-   },
-   getOrder:(orderId)=>{
-    return new Promise(async(resolve,reject)=>{
-       let response= await db.get().collection(collection.ORDER_COLLECTION).findOne({_id:objectId(orderId)})
-            resolve(response)
-    })
-   },
 
-   orderPaypal:(order)=>{
+   statusPaypal:(orderId)=>{
     return new Promise((resolve,reject)=>{
-    db.get().collection(collection.ORDER_COLLECTION).insertOne(order).then(()=>{
+    db.get().collection(collection.ORDER_COLLECTION).updateOne({_id:objectId(orderId)},{$set:{status:'placed'}}).then(()=>{
         resolve()
     })
     })

@@ -3,7 +3,8 @@ const collection=require('../config/collection')
 var objectId=require('mongodb').ObjectId
 
 module.exports={
-  addToCart:(productId,userID)=>{
+  
+    addToCart:(productId,userID)=>{
       proObj={
         item:objectId(productId),
         quantity:1
@@ -142,7 +143,7 @@ module.exports={
           {
             $group:{
               _id:null,
-              total:{$sum:{$multiply:['$quantity','$product.finalPrice']}}
+              total:{$sum:{$multiply:['$quantity','$product.price']}}
             }
           }
         ]).toArray()
@@ -156,93 +157,7 @@ module.exports={
             resolve()
           })
         })
-       },
-
-      
-       addToWishlist:(proId,userId)=>{
-        proObj={
-          item:objectId(proId),
-        }
-         return new Promise(async(resolve,reject)=>{
-          let wishList=await db.get().collection(collection.WISHLIST_COLLECTION).findOne({user:objectId(userId)})
-          if(wishList){
-            let proExist=wishList.products.findIndex(product=>product.item==proId)
-            if(proExist!=-1){
-                db.get().collection(collection.WISHLIST_COLLECTION).updateOne({user:objectId(userId)},{$pull:{products:{item:objectId(proId)}}}).then(()=>{
-                  resolve({deleted:true})
-                })
-            }else{
-              db.get().collection(collection.WISHLIST_COLLECTION).updateOne({user:objectId(userId)},{
-                $push:{products:proObj}
-              }).then(()=>{
-                resolve({added:true})
-              })
-            }
-          }else{
-            console.log('helloo')
-            let wishListObj={
-              user:objectId(userId),
-              products:[proObj]             
-            }
-            db.get().collection(collection.WISHLIST_COLLECTION).insertOne(wishListObj).then(()=>{
-              resolve({added:true})
-            })
-          }
-         })
-       },
-
-       getAllWishlist:(userId)=>{
-       return new Promise(async(resolve,reject)=>{
-       let wishlist=await db.get().collection(collection.WISHLIST_COLLECTION).aggregate([
-          {
-            $match:{user:objectId(userId)}
-          },
-          {
-            $unwind:'$products'
-          },
-          {
-            $project:{
-              item:'$products.item',
-           }
-          },
-          {
-            $lookup:{
-                from:collection.PRODUCT_COLLECTION,
-                localField:'item',
-                foreignField:'_id',
-                as:'product'
-            }
-          },
-          {
-            $project:{
-              item:1,product:{$arrayElemAt:['$product',0]} 
-            }
-          }
-        ]).toArray()
-        resolve(wishlist)
-       })
-       },
-
-       getAllWishlistId:(userId)=>{
-        return new Promise(async(resolve,reject)=>{
-          let wishlist=await db.get().collection(collection.WISHLIST_COLLECTION).aggregate([
-             {
-               $match:{user:objectId(userId)}
-             },
-             {
-               $unwind:'$products'
-             },
-             {
-               $project:{
-                 item:'$products.item',
-              }
-             }
-             
-           ]).toArray()
-           resolve(wishlist)
-          })
        }
-
 
 
 }

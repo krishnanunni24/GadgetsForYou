@@ -82,16 +82,6 @@ router.post('/updateOrderStatus/:id',admin.updateOrderStatus)
 
 router.get('/getChartData',getchartData)
 
-router.get('/couponManagement',admin.couponManagement)
-
-router.post('/addCoupon',admin.addCouponForm)
-
-router.post('/editCoupon/:id',admin.editCouponForm)
-
-router.get('/deleteCoupon/:id',admin.deleteCoupon)
-
-
-
 
 
 

@@ -3,15 +3,13 @@ var catagoryHelpers = require('../helpers/catagory-Helpers')
 var productHelpers = require('../helpers/product-Helpers')
 var cartHelpers=require('../helpers/cart-Helpers')
 var orderHelpers=require('../helpers/order-helpers');
-// const { response } = require('../app');
-const { ConferenceContext } = require('twilio/lib/rest/insights/v1/conference');
-var objectId=require('mongodb').ObjectId
-
+const { Db } = require('mongodb');
 require('dotenv').config()
 
 const accountSid = process.env.TWILIO_ACCOUNT_SID
 const authToken =process.env.TWILIO_AUTH_TOKEN
 const serverSID=process.env.VERIFICATION_SID
+
 const client = require('twilio')(accountSid, authToken);
 
 
@@ -33,15 +31,19 @@ const loginPost= (req, res) => {
     if (response.status === true) {
       userHelpers.blockCheck(req.body.email).then((response) => {
         if (response.status === true) {
+          req.session.userLoggedIn = true
+          req.session.userBlocked=false
           console.log(response)
-          res.json({status:true})
-        }else{
-          res.json({blocked:true})
+          res.redirect('/userPanel')
+        } else {
+          req.session.userBlocked = true
+          req.flash('failed', 'This user is Blocked')
+          res.redirect('/login')
         }
       })
     } else {
       req.session.userLoginErr = true
-      res.json({status:false})
+      res.redirect('/login')
     }
   })
 }
@@ -63,7 +65,7 @@ const signUpGet=(req, res) =>{
 
 const signUpPost= (req, res) => {
   userHelpers.addUser(req.body).then(() => {
-    res.json({signed:true})
+    res.redirect('/login')
   })
 }
 
@@ -71,16 +73,15 @@ const signUpPost= (req, res) => {
 const userPanelGet= async (req, res)=>{
  let user=null
  let cartCount=null
- let wishlist=null
+
  
  if(req.session.user){
   user=req.session.user
   cartCount=await cartHelpers.getCartCount(user._id)
-  wishlist=await cartHelpers.getAllWishlistId(user._id)
  }
   productHelpers.getAllProducts().then((products) => {
     catagoryHelpers.getAllCatagory().then((catagory) => {
-      res.render('user/landingPage', { catagory, products ,user,cartCount,wishlist})
+      res.render('user/landingPage', { catagory, products ,user,cartCount})
     })
   })
 }
@@ -88,26 +89,16 @@ const userPanelGet= async (req, res)=>{
 
 //Product Display
 const displayProduct=async(req, res) => {
-  try{
-    let user=null
-    let cartCount=null
-    if(req.session.user){
-     user=req.session.user
-     cartCount=await cartHelpers.getCartCount(user._id)
-    }
-    console.log("id",req.params.id)
-
-  userHelpers.getProduct(req.params.id).then((response)=>{
-  let product=response
+  let user=null
+ let cartCount=null
+ if(req.session.user){
+  user=req.session.user
+  cartCount=await cartHelpers.getCartCount(user._id)
+ }
+  let product=await userHelpers.getProduct(req.params.id)
+  console.log("id",req.params.id)
   console.log('products:',product)
     res.render('user/displayProduct', {product,user,cartCount})
-  })
-
-
-  }catch{
-    console.log('hellooo')
-  }
- 
 }
 
 //Catagories
@@ -131,16 +122,18 @@ const otpPhone=function(req,res){
 }
 
 const otpLoginPost=async function (req, res, next) {
-  const  phone  =parseInt(req.body.phone) 
-  console.log('phone:',req.body.phone)
-  // userHelpers.getUserByphno(phone).then((response) => {
-  //   const user = response
-  //   if (!user) {
-  //     req.flash('failed', 'User does not exist')
-  //     res.redirect('/otpPhone')
-  //   }
-    
-     
+  const  phone  = req.body.phone
+  userHelpers.getUserByphno(phone).then((response) => {
+    const user = response
+    if (!user) {
+      req.flash('failed', 'User does not exist')
+      res.redirect('/otpPhone')
+    }
+    else if (user.loginAccess=='blocked') {
+      // req.flash('failed', 'You are blocked by Admin')
+      res.redirect('/otpPhone')
+    }
+    else {
       client.verify
         .services(serverSID)
         .verifications.create({
@@ -148,14 +141,13 @@ const otpLoginPost=async function (req, res, next) {
           channel: 'sms'
         }).then(data => {
           console.log(data);
-          res.json({otpVerify:true})
+          res.render('user/otpVerify', { phone: req.body.phone, user: false })
         })
         .catch(err => {
-          console.log('error:',err);
-          res.json({otpVerify:false})
+          console.log(err);
         })
-    
-  
+    }
+  })
 }
 
 const otpLoginVerification= (req, res, next) => {
@@ -170,9 +162,15 @@ const otpVerifyPost= (req, res, next) => {
       if (!resp.valid) {
         // req.flash('failed', 'OTP verification failed')  
         req.session.otpErr=true 
-        res.json({otpErr:true})
+        res.redirect('/otpPhone')
       } else {
-        res.json({otpValid:true})
+        userHelpers.getUserByphno(phone).then((response) => {
+          const user = response
+          req.session.user = user
+          req.session.userLoggedIn=true
+          // req.flash('success', 'OTP verification successfully completed and you are Logged in')
+          res.redirect('/login')
+        })
       }
     }).catch(err => {
       console.log(err);
@@ -201,7 +199,7 @@ const cart=async(req,res)=>{
 
 const logout = (req,res)=>{
   req.session.destroy()
-  res.redirect('/')
+  res.redirect('/login')
 }
 
 const cartDelete=(req,res)=>{
@@ -214,8 +212,8 @@ const changeProductQuantity=(req,res)=>{
   cartHelpers.changeQuantity(req.body).then(async(response)=>{
     cartHelpers.getTotalValue(req.body.user).then((data)=>{
 
-      // response.total=data[0]?.total
-      response.total=data[0].total
+      response.total=data[0]?.total
+
       res.json(response)
     })    
   })
@@ -264,8 +262,8 @@ const addAddressPost=(req,res)=>{
   
   userHelpers.addAddress(req.body,req.session.user._id).then(()=>{
     console.log('Address added');
-    res.json({status:true})
-  })
+    res.redirect('/placeOrder')
+})
   
 
 }
@@ -318,46 +316,32 @@ const profileAddAddressPost=(req,res)=>{
 const profileRemoveAddress=(req,res)=>{
   let addressId=req.params.id
    userHelpers.removeAddress(req.session.user._id,addressId).then(()=>{
-     res.json({status:true})
+     res.redirect('/profileAddress')
    })
 }
 
 const placeOrderPost=async(req,res)=>{
   let data=req.body
   let userId=req.session.user._id
+  data.date=new Date().toJSON().slice(0,10)
   data.orderDetails=await userHelpers.getAddress(userId,data.address)
   data.products=await cartHelpers.getAllCartItems(req.session.user._id)
- let order={
-  _id:objectId(),
-  deliveryDetails:data.orderDetails,
-  userId:objectId(userId),
-  paymentMethod:data.paymentMethod,
-  status:'placed',
-  products:data.products,
-  total:parseInt(data.totalPrice),
-  placedDate:new Date().toDateString()
- }
- req.session.order=order
-      //cod
+  orderHelpers.addOrder(req.session.user._id,data).then((response)=>{
+    cartHelpers.removeAll(req.session.user._id).then(()=>{
+      console.log("payment:",req.body.paymentMethod)
       if(req.body.paymentMethod === 'cod'){
-        orderHelpers.addOrder(req.session.user._id,data).then((response)=>{
-          cartHelpers.removeAll(req.session.user._id).then(()=>{
       res.json({codStatus:true})
-      })
-      })
-
       }else if(req.body.paymentMethod === 'razorPay'){
-      orderHelpers.generateRazorPay(order._id,order.total).then((response)=>{
-        response.order=order
-        console.log('response:',response)
+      orderHelpers.generateRazorPay(response.insertedId,response.total).then((response)=>{
       res.json(response)
       })
     }else if(req.body.paymentMethod === 'payPal'){
-      orderHelpers.orderPaypal(order).then(()=>{
+      orderHelpers.statusPaypal(response.insertedId).then(()=>{
       res.json({paypalStatus:true})
       })
     }
-  
+    })
+  })
 }
 
 const userOrders=async(req,res)=>{
@@ -402,127 +386,15 @@ const orderSuccess=(req,res)=>{
 
 const verifyPayment=(req,res)=>{
   console.log('vPay',req.body)
-
   orderHelpers.verifyPayment(req.body).then(()=>{
-    orderHelpers.addRazorOrder(req.session.order).then(()=>{
-      cartHelpers.removeAll(req.session.user._id).then(()=>{
-        req.session.order=null
-        console.log('working')
-          res.json({status:true})  
-              })
+    orderHelpers.changePaymentStatus(req.body['order[receipt]']).then(()=>{
+      res.json({status:true})
     })
   }).catch((err)=>{
     console.log(err)
     res.json({status:false})
   })
 }
-
-const profileEditAddress=async(req,res)=>{
-  let address=null
-  let cartCount=null
-  let user=req.session.user
-  if(req.session.user){
-    cartCount=await cartHelpers.getCartCount(user._id)
-    address=await userHelpers.getAddress(req.session.user._id,req.params.id)
-   }
-   console.log('address',address)
-    res.render('user/profileEditAddress',{user,address,cartCount})
-  }
-
-  const profileEditAddressPost=(req,res)=>{
-   userHelpers.editAddress(req.session.user._id,req.params.id,req.body).then(()=>{
-    res.redirect('/profileAddress')
-   })
-  }
-
-  const editAddressPost=(req,res)=>{
-    console.log('data:',req.body)
-    userHelpers.editAddress(req.session.user._id,req.params.id,req.body).then(()=>{
-      res.json({status:true})
-    })
-  }
-
-  const applyCoupon=(req,res)=>{
-    console.log('req:',req.body)
-    userHelpers.couponCheck(req.body).then((coupon)=>{
-       
-       console.log('coupon:',coupon)
-      
-       if(coupon){
-        let cPrice=parseInt(coupon.minPrice)
-        let pPrice=parseInt(req.body.price)
-        if(cPrice < pPrice || cPrice === pPrice){
-          res.json(coupon)
-        }else{
-          res.json({priceNotValid:true})
-        }
-       }else{
-        res.json({status:false})
-       }
-    })
-  }
-
-  const addToWishlist=(req,res)=>{
-    let userId=req.session.user._id
-   cartHelpers.addToWishlist(req.params.id,userId).then((response)=>{
-    console.log(response);
-    res.json(response)
-    
-   })
-  }
-
-  const wishlistGet=async(req,res)=>{
-    let user=null
-    let wishList=null
-    let cartCount=null
-
-    if(req.session.user){
-    let userId=req.session.user._id
-    user=req.session.user
-     wishlist=await cartHelpers.getAllWishlist(userId)
-      console.log('wishlist:',wishlist)  
-     cartCount=await cartHelpers.getCartCount(userId)
-    }
-
-   res.render('user/wishlist',{wishlist,cartCount,user})
-  }
-
-  const productSearch=async(req,res)=>{
-    console.log(req.query)
-    let user=null
-    let cartCount=null
-    let wishlist=null
-    let noResult=null
-    let products=null
-    try{
-       products=await productHelpers.getSearchedProducts(req.query.search)
-      if(req.session.user){
-        user=req.session.user
-        cartCount=await cartHelpers.getCartCount(user._id)
-        wishlist=await cartHelpers.getAllWishlistId(user._id)
-       }
-       res.render('user/searchResult', { products ,user,cartCount,wishlist,noResult})
-
-      console.log('result:',products)
-    }catch{
-      noResult=true
-      res.render('user/searchResult', { products ,user,cartCount,wishlist,noResult})
-    }
-  }
-
-  const invoice=async(req,res)=>{
-   let id=req.params.id
-   let cartCount=null
-  let user=req.session.user
-  if(req.session.user){
-   cartCount=await cartHelpers.getCartCount(user._id)
-   orderDetails=await orderHelpers.getOrder(id)
-  }
-  console.log('order:',orderDetails);
-  res.render('user/invoice',{cartCount,user,orderDetails})
-  }
-
-
 
 module.exports={
    landingPage,
@@ -559,12 +431,5 @@ module.exports={
    productsOrdered,
    orderSuccess,
    verifyPayment,
-   profileEditAddress,
-   profileEditAddressPost,
-   editAddressPost,
-   applyCoupon,
-   addToWishlist,
-   wishlistGet,
-   productSearch,
-   invoice,
+   
 }

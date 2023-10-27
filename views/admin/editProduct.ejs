@@ -38,17 +38,13 @@
               </div>
 
               <!-- Text input -->
-                
-              
-                <div class="form-outline mb-2">
-                  <%for(var k=0;k< product.images.length;k++){%>
+              <div class="form-outline mb-2">
+                <%for(var k=0;k< product.images.length;k++){%>
                 <img src="/uploads/<%-product.images[k].filename%>" alt="" style="width: 100px;height: auto;">
                 <%} %>
-                  <input type="file" id="productImage1" class="form-control"  name="image" />
-                  <label class="form-label" for="productImage1">Image1</label>
-                 
-                </div>
-              
+                <input type="file" id="productImage" class="form-control" name="image" multiple/>
+                <label class="form-label" for="productImage">Image</label>
+              </div>
 
               <!-- Text input -->
               <div class="form-outline mb-2">
@@ -76,16 +72,6 @@
                 <label class="form-label" for="productDescription">Description</label>
               </div>
 
-              <!-- offer input -->
-
-              <div class="form-outline mb-2">
-                <label for="Offer Input mb-1">Offer</label>
-                    <input type="number" class="form-control text-black" name="offer"
-                      placeholder="Offer in Percentage" aria-describedby="offerHelp" value="<%-product.offer%>">
-              </div>
-
-                <input type="hidden" value="<%-catagory.catagoryOffer%>" class="form-control text-black" name="catagoryOffer">
-
 
               <!-- Submit button -->
               <button type="submit" class="btn btn-success btn-block mb-4">Submit</button>
@@ -101,4 +87,4 @@
       crossorigin="anonymous"></script>
     </body>
 
-  </html>
+    </html>

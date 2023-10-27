@@ -73,52 +73,8 @@ const addProductGet = function (req, res) {
     })
 }
 
-const addProductPost = async(req, res)=>{
-    console.log('files:',req.files)
-
-   req.body.price=parseInt(req.body.price)
-   req.body.offer=parseInt(req.body.offer)
-  let catagory=await catagoryHelpers.getCatagoryOffer(req.body.catagory)
-  if(isNaN(catagory.catagoryOffer)){
-  req.body.catagoryOffer=0
-  console.log('req.body.catagoryOffer:',req.body.catagoryOffer)
-  }else{
-  req.body.catagoryOffer=catagory.catagoryOffer
-  }
-  if(req.body.offer === NaN){
-    req.body.offer=0
-    }
-
-    
-  console.log('body:',req.body)
-  console.log('req.body.offer:',req.body.offer)
-
-
-
-   
-   let pri= req.body.price
-   let off=req.body.offer
-   let catOff=req.body.catagoryOffer
-   console.log(typeof off)
-   console.log(typeof catOff)
-
-    if(off > 0 && off > catOff){
-        req.body.finalPrice= pri-(pri*off/100)
-        console.log('product offer aplied:',req.body.finalPrice)
-    }else if(catOff > 0 &&  catOff > off){
-        req.body.finalPrice= pri-(pri*catOff/100)
-        console.log('catagory offer aplied:',req.body.finalPrice)
-    }
-    else if(catOff === off){
-        req.body.finalPrice= pri-(pri*off/100)
-
-    }else{
-        req.body.finalPrice = pri
-        console.log('no offer')
-    }
-    
-    console.log('final price:',req.body.finalPrice)
-
+const addProductPost = function (req, res) {
+    req.body.price=parseInt(req.body.price)
     productHelpers.addProduct(req.body,req.files).then(()=>{
         res.redirect('/admin/productManagement')
     })
@@ -156,61 +112,12 @@ const editProductGet = function (req, res) {
     })
 }
 
-const editProductPost = async(req, res)=>{
+const editProductPost = function (req, res) {
     let id = req.params.id
-    console.log('req.files:',req.files)
-    console.log('req.body',req.body)
-
-    // if(req.files?.length > 0){
-        if(req.file.filename){
+    if(req.files?.length > 0){
         productHelpers.editProductImage(req.params.id,req.files)
     }
-   req.body.price=parseInt(req.body.price)
-   req.body.offer=parseInt(req.body.offer)
-
-   let catagory=await catagoryHelpers.getCatagoryOffer(req.body.catagory)
-   if(isNaN(catagory.catagoryOffer)){
-   req.body.catagoryOffer=0
-   console.log('req.body.catagoryOffer:',req.body.catagoryOffer)
-   }else{
-   req.body.catagoryOffer=catagory.catagoryOffer
-   }
-   if(isNaN(req.body.offer)){
-     req.body.offer=0
-     }
- 
-     
-   console.log('body:',req.body)
-   console.log('req.body.offer:',req.body.offer)
- 
- 
- 
-    
-    let pri= req.body.price
-    let off=req.body.offer
-    let catOff=req.body.catagoryOffer
-    console.log(typeof off)
-    console.log(typeof catOff)
- 
-     if(off > 0 && off > catOff){
-         req.body.finalPrice= pri-(pri*off/100)
-         console.log('product offer aplied:',req.body.finalPrice)
-     }else if(catOff > 0 &&  catOff > off){
-         req.body.finalPrice= pri-(pri*catOff/100)
-         console.log('catagory offer aplied:',req.body.finalPrice)
-     }
-     else if(catOff === off){
-         req.body.finalPrice= pri-(pri*off/100)
- 
-     }else{
-         req.body.finalPrice = pri
-         console.log('no offer')
-     }
-     
-     
-     console.log('final price:',req.body.finalPrice)
- 
-     
+    req.body.price=parseInt(req.body.price)
     productHelpers.editProduct(req.params.id, req.body).then(() => {
         res.redirect('/admin/productManagement')
         if (req.files) {
@@ -244,7 +151,6 @@ const addCatagoryGet = function (req, res) {
 
 const addCatagoryPost = function (req, res) {
     console.log(req.body)
-    req.body.catagoryOffer=parseInt(req.body.catagoryOffer)
     catagoryHelpers.addCatagory(req.body,req.file).then(()=>{
        res.redirect('/admin/catagoryManagement')
     })
@@ -253,17 +159,13 @@ const addCatagoryPost = function (req, res) {
 
 const editCatagoryPost = function (req, res) {
 
-    // if(req.file?.filename){
-        if(req.file.filename){   
+    if(req.file?.filename){
+        
      catagoryHelpers.editCatagoryImage(req.params.id,req.file)
-     }
-    req.body.catagoryOffer=parseInt(req.body.catagoryOffer)
-    if(isNaN(req.body.catagoryOffer)){
-        req.body.catagoryOffer=0
     }
     catagoryHelpers.editCatagory(req.params.id, req.body).then(() => {
         console.log(req.params.name)
-        productHelpers.updateProductCatagory(req.params.name,req.body.name,req.body.catagoryOffer).then(()=>{
+        productHelpers.updateProductCatagory(req.params.name,req.body.name).then(()=>{
             res.redirect('/admin/catagoryManagement')
         })
     })
@@ -331,31 +233,8 @@ const productsOrdered=async(req,res)=>{
 
   }
 
-  const couponManagement=async(req,res)=>{
-  let coupons=await userHelpers.getAllCoupons()
 
-    res.render('admin/couponManagement',{coupons})
-  }
 
-  const addCouponForm=(req,res)=>{
-   console.log('body:',req.body)
-   userHelpers.addCoupon(req.body).then(()=>{
-    res.json({status:true})
-   })
-
-  }
-
-  const editCouponForm=(req,res)=>{
-   userHelpers.editCoupon(req.params.id,req.body).then(()=>{
-    res.json({status:true})
-   })
-  }
-
-  const deleteCoupon=(req,res)=>{
-    userHelpers.deleteCoupon(req.params.id).then(()=>{
-        res.json({status:true})
-    })
-  }
 
 module.exports = {
     loginPage,
@@ -380,9 +259,5 @@ module.exports = {
     orderManagement,
     adminCancelOrder,
     productsOrdered,
-    updateOrderStatus,
-    couponManagement,
-    addCouponForm,
-    editCouponForm,
-    deleteCoupon
+    updateOrderStatus
 } 

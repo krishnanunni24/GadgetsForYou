@@ -61,12 +61,6 @@ router.get('/profileAddAddress',user.profileAddAddressGet)
 
 router.post('/profileAddAddressPost',user.profileAddAddressPost)
 
-router.get('/profileEditAddress/:id',user.profileEditAddress)
-
-router.post('/profileEditAddressPost/:id',user.profileEditAddressPost)
-
-router.post('/editAddressPost/:id',user.editAddressPost)
-
 router.get('/profileRemoveAddress/:id',user.profileRemoveAddress)
 
 router.get('/userOrders',user.userOrders)
@@ -76,20 +70,6 @@ router.get('/cancelOrder/:id',user.cancelOrder)
 router.get('/productsOrdered/:id',user.productsOrdered)
 
 router.post('/verifyPayment',user.verifyPayment)
-
-router.post('/applyCoupon',user.applyCoupon)
-
-router.get('/addToWishlist/:id',user.addToWishlist)
-
-router.get('/wishlist',user.wishlistGet)
-
-router.get('/productSearch',user.productSearch)
-
-router.get('/invoice/:id',user.invoice)
-
-
-
-
 
 
 

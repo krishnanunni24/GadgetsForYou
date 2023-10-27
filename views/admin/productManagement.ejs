@@ -2,12 +2,7 @@
 <%-include('../partials/admin/adminSideNav')%>
 
 <link rel="stylesheet" href="https://cdn.datatables.net/1.12.1/css/dataTables.bootstrap5.min.css">
-<link rel="stylesheet" href="https://cdn.datatables.net/buttons/2.2.3/css/buttons.dataTables.min.css">
  <script src="https://cdn.datatables.net/1.12.1/js/jquery.dataTables.min.js"></script>
- <script src="https://cdn.datatables.net/buttons/2.2.3/js/buttons.html5.min.js"></script>
- <script src="https://cdn.datatables.net/buttons/2.2.3/js/buttons.print.min.js"></script>
- <script src="https://cdn.datatables.net/buttons/2.2.3/js/dataTables.buttons.min.js"></script>
- <script src="https://cdn.datatables.net/plug-ins/1.10.11/sorting/date-eu.js" type="text/javascript"></script>
 
 
         <!-- /#sidebar-wrapper -->
@@ -50,8 +45,6 @@
                             <th scope="col">Stocks</th>
                             <th scope="col">Description</th>
                             <th scope="col">Price</th>
-                            <th scope="col">Offer</th>
-                            <th scope="col">Final Price</th>
                             <th scope="col">Edit/Delete</th>
 
 
@@ -98,22 +91,6 @@
                                     <%-products[i].price%>
                                 </td>
 
-                                <td>
-                                    <%if(products[i].offer != NaN){%>
-                                        <%if(products[i].offer > products[i].catagoryOffer && products[i].offer > 0){%>
-                                        <%-products[i].offer%>
-                                            <%}else if(products[i].offer < products[i].catagoryOffer || products[i].offer == products[i].catagoryOffer){%>
-                                                <%-products[i].catagoryOffer%>
-                                                <%}%>
-                                        <%}else if(products[i].offer == 0 && products[i].catagoryOffer == 0){%>
-                                            No offer added
-                                            <%}
-                                    %>
-                                </td>
-
-                                <td>
-                                    <%-products[i].finalPrice%>
-                                </td>
 
                                 <td>
                                     <a href="/admin/editProduct/<%-products[i]._id%>"><button
@@ -124,8 +101,6 @@
                                             type="submit">Delete</button>
                                 </td>
 
-                               
-                                
                             </tr>
                             <%} %>
 

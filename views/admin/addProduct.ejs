@@ -1,8 +1,6 @@
 <%-include('../partials/admin/adminHeader')%>
 <%-include('../partials/admin/adminSideNav')%>
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.12/cropper.min.js" integrity="sha512-ooSWpxJsiXe6t4+PPjCgYmVfr1NS5QXJACcR/FPpsdm6kqG1FmQ2SVyg2RXeVuCRBLr0lWHnWJP6Zs1Efvxzww==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-
 
 <div id="page-content-wrapper">
     <nav class="navbar navbar-expand-lg bg-light">
@@ -42,9 +40,14 @@
               
                 <!-- Text input -->
                 <div class="form-outline mb-2">
-                  <input type="file" id="productImage1" class="form-control"  name="image" required="true" multiple/>
-                  <label class="form-label" for="productImage1">Images</label>
-                 
+                  <input type="file" id="productImage" class="form-control"  name="image" required="true" multiple/>
+                  <label class="form-label" for="productImage">Image</label>
+                </div>
+              
+                <!-- Text input -->
+                <div class="form-outline mb-2">
+                  <input type="number" id="productStocks" class="form-control" name="stocks" required="true"/>
+                  <label class="form-label" for="productStocks">Stocks</label>
                 </div>
               
                 <!-- Email input -->
@@ -52,13 +55,6 @@
                   <input type="number" id="productPrice" class="form-control" />
                   <label class="form-label" for="productPrice">Price</label>
                 </div> -->
-
-                <!-- Stocks Input -->
-                <div class="form-outline mb-2">
-                  <input type="number" id="productStocks" class="form-control" name="stocks" required="true"/>
-                  <label class="form-label" for="productStocks">Stocks</label>
-                </div>
-
                 <div class="form-outline mb-2">
                     <div class="input-group mb-3">
                         <span class="input-group-text">₹</span>
@@ -74,13 +70,6 @@
                   <textarea class="form-control" id="productDescription" rows="4" name="description" required="true"></textarea>
                   <label class="form-label" for="productDescription">Description</label>
                 </div>
-
-                <div class="form-outline mb-2">
-                  <label for="Offer Input mb-1">Offer</label>
-                      <input type="number" class="form-control text-black" name="offer"
-                        placeholder="Offer in Percentage" aria-describedby="offerHelp" min="1" max="100">
-                </div>
-                
     
               
                 <!-- Submit button -->

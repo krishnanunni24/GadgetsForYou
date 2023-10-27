@@ -39,10 +39,7 @@
                                       
                                                        <h6 class="my-1"><%-address[i].address.phone%></h6>
                                                        <div class="btns my-3">
-                                                        <button onclick="removeAddress('<%-address[i].address.id%>')" class="btn btn-outline-dark pb-2">Remove</button>
-                                                        <a href="/profileEditAddress/<%-address[i].address.id%>" class="btn btn-outline-dark pb-2"><i class="fa fa-edit"></i>
-                                                          Edit</a>
-
+                                                        <a href="/profileRemoveAddress/<%-address[i].address.id%>" onclick="return confirm('This document will be deleted.Are you sure?')" class="btn btn-outline-dark pb-2">Remove</a>
                                                        </div>
                                                        
                                                       
@@ -60,7 +57,7 @@
                                       
                                                   <div class="alert alert-primary" role="alert">
                                                     <i class="fas fa-plus"></i>
-                                                    <a href="/profileAddAddress" style="text-decoration: none;">Add Address</a>
+                                                    <a href="/profileAddAddress" style="text-decoration: none;">+ Add Address</a>
                                                   </div>
                                                   
                                                   
@@ -89,34 +86,7 @@
 
     </div>
     </div>
-  
-    <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
-    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
-  
-  
-    <script>
-      function removeAddress(addId){
-        swal({
-  title: "Are you sure?",
-  icon: "warning",
-  buttons: true,
-  dangerMode: true,
-}).then((willDelete)=>{
-  if(willDelete){
-   $.ajax({
-    url:'/profileRemoveAddress/'+addId,
-    method:'get',
-    success:(response)=>{
-      swal("success", "Address Deleted", "success").then(()=>{
-        location.reload()
-      })
 
-    }
-   })
-  } 
-})
-      }
-    </script>
 
     </body>
 

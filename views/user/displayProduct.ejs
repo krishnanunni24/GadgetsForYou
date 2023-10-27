@@ -7,6 +7,11 @@
                 <%} %>
 
 
+
+
+
+
+
                     <style>
                         section {
                             margin-top: 100px;
@@ -231,9 +236,8 @@
                                             <div class="main_image img-zoom-container">
                                                 
                                                 <img src="/uploads/<%-product.images[0].filename%>"
-                                                    id="zoom" width="350">
+                                                    id="myimage" width="350">
                                             </div>
-                                            
 
                                             <div class="thumbnail_images">
                                                 <ul id="thumbnail">
@@ -256,6 +260,7 @@
                                                     <%-product.name%>
                                                 </h3>
                                             </div>
+                                            <div id="myresult" class="img-zoom-result"></div>
 
                                             <div class="mt-2 pr-3 content">
                                                 <p>
@@ -268,32 +273,18 @@
                                                 <button class="btn btn-light" onclick="myFunction()" id="myBtn">Read
                                                     more</button></p>
                                             </div>
-                                            <%if(product.price === product.finalPrice){%>
-                                                <h3 class="text-success fw-bold"><span class="text-danger fw-bold"> ₹<%-product.finalPrice%> </span>
-                                                </h3>
-                                                <%}else{%>
-                                                    <h3 class="text-success fw-bold"><del>₹<%-product.price%></del> <span class="text-danger fw-bold"> ₹<%-product.finalPrice%> </span>
-                                                    </h3>
-                                                    <span class="text-success fw-bold fst-italic"><%-product.offer%>% offer</span>
-                                                    <%}
-                                                %>
-
+                                            <h3>₹<%-product.price%>
+                                            </h3>
                                             <div class="ratings d-flex flex-row align-items-center">
                                                 <div class="d-flex flex-row"> <i class='bx bxs-star'></i> <i
                                                         class='bx bxs-star'></i> <i class='bx bxs-star'></i> <i
                                                         class='bx bxs-star'></i> <i class='bx bx-star'></i> </div>
                                             </div>
                                 
-                                         
-                                                    <%if(user){%>
-                                                        <div class="buttons d-flex flex-row mt-5 gap-3"> <button class="btn btn-dark"
-                                                            onclick="addtoCart('<%-product._id%>')">Add to Cart</button> </div>
-                                                        <%}else{%>
-                                                            <div class="buttons d-flex flex-row mt-5 gap-3"><button class="btn btn-dark"
-                                                                onclick="displayErr()" data-bs-toggle="modal" data-bs-target="#exampleModal">Add to Cart</button> </div>
-                                                          <%}
-                                                          
-                                                          %>
+                                            <div class="buttons d-flex flex-row mt-5 gap-3"> <button
+                                                    class="btn btn-outline-dark">Buy
+                                                    Now</button> <button class="btn btn-dark"
+                                                    onclick="addtoCart('<%-product._id%>')">Add to Cart</button> </div>
                                         </div>
                                     </div>
                                 </div>
@@ -304,18 +295,17 @@
 
 
                     <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
-                    <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
-                    <script src="/javascripts/zoomsl.min.js"></script>
 
                     <script>
-                     $(document).ready(function(){
-                        $('#zoom').imagezoomsl()
-                     })
+
 
 
                         function changeImage(element) {
-                            var main_prodcut_image = document.getElementById('zoom');
+
+                            var main_prodcut_image = document.getElementById('myimage');
                             main_prodcut_image.src = element.src;
+
+
                         }
 
 
@@ -335,20 +325,13 @@
                             }
                         }
 
-      function displayErr(){
-      let cls =document.getElementById('logInErrDiv').classList
-      cls.remove('clr')
-     }
-
                         function addtoCart(proId) {
 
                             $.ajax({
                                 url: '/addToCart/' + proId,
                                 method: 'get',
                                 success: (response) => {
-                                    swal("Good job!", "Item added to Cart!", "success").then(()=>{
-                                        location.reload()
-                                    })
+                                    swal("Good job!", "Item added to Cart!", "success");
 
                                     if (response.status) {
                                         let count = $('#cartCount').html()
@@ -361,36 +344,64 @@
 
                         }
 
+                        function imageZoom(imgID, resultID) {
+                            var img, lens, result, cx, cy;
+                            img = document.getElementById(imgID);
+                            result = document.getElementById(resultID);
+                            /*create lens:*/
+                            lens = document.createElement("DIV");
+                            lens.setAttribute("class", "img-zoom-lens");
+                            /*insert lens:*/
+                            img.parentElement.insertBefore(lens, img);
+                            /*calculate the ratio between result DIV and lens:*/
+                            cx = result.offsetWidth / lens.offsetWidth;
+                            cy = result.offsetHeight / lens.offsetHeight;
+                            /*set background properties for the result DIV:*/
+                            result.style.backgroundImage = "url('" + img.src + "')";
+                            result.style.backgroundSize = (img.width * cx) + "px " + (img.height * cy) + "px";
+                            /*execute a function when someone moves the cursor over the image, or the lens:*/
+                            lens.addEventListener("mousemove", moveLens);
+                            img.addEventListener("mousemove", moveLens);
+                            /*and also for touch screens:*/
+                            lens.addEventListener("touchmove", moveLens);
+                            img.addEventListener("touchmove", moveLens);
+                            function moveLens(e) {
+                                var pos, x, y;
+                                /*prevent any other actions that may occur when moving over the image:*/
+                                e.preventDefault();
+                                /*get the cursor's x and y positions:*/
+                                pos = getCursorPos(e);
+                                /*calculate the position of the lens:*/
+                                x = pos.x - (lens.offsetWidth / 2);
+                                y = pos.y - (lens.offsetHeight / 2);
+                                /*prevent the lens from being positioned outside the image:*/
+                                if (x > img.width - lens.offsetWidth) { x = img.width - lens.offsetWidth; }
+                                if (x < 0) { x = 0; }
+                                if (y > img.height - lens.offsetHeight) { y = img.height - lens.offsetHeight; }
+                                if (y < 0) { y = 0; }
+                                /*set the position of the lens:*/
+                                lens.style.left = x + "px";
+                                lens.style.top = y + "px";
+                                /*display what the lens "sees":*/
+                                result.style.backgroundPosition = "-" + (x * cx) + "px -" + (y * cy) + "px";
+                            }
+                            function getCursorPos(e) {
+                                var a, x = 0, y = 0;
+                                e = e || window.event;
+                                /*get the x and y positions of the image:*/
+                                a = img.getBoundingClientRect();
+                                /*calculate the cursor's x and y coordinates, relative to the image:*/
+                                x = e.pageX - a.left;
+                                y = e.pageY - a.top;
+                                /*consider any page scrolling:*/
+                                x = x - window.pageXOffset;
+                                y = y - window.pageYOffset;
+                                return { x: x, y: y };
+                            }
+                        }
 
+                        imageZoom("myimage", "myresult");
 
-                        $('#loginForm').submit((e)=>{
-    e.preventDefault()
-    $.ajax({
-      url:'/login',
-      method:'post',
-      data:$('#loginForm').serialize(),
-      success:(response)=>{
-        if(response.status){
-         location.href='/userPanel'
-        }else if(response.blocked){
-          let err=document.getElementById('loginErrDiv').classList
-          err.remove('clr')
-          let cls =document.getElementById('logInErrDiv').classList
-          cls.add('clr')
-          document.getElementById('loginErr').innerHTML='This User is Blocked'
-        }else{
-          let cls =document.getElementById('logInErrDiv').classList
-          cls.add('clr')
-          let err=document.getElementById('loginErrDiv').classList
-          err.remove('clr')
-          document.getElementById('loginErr').innerHTML='Incorrect Email or Password'
-        }
-    
-      }
-    })
-  })
-
-                        
                     </script>
 
 

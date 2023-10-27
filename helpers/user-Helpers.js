@@ -1,7 +1,6 @@
 var db=require('../config/connection')
 const collection=require('../config/collection')
 const bcrypt=require('bcrypt')
-const { response } = require('../app')
 var objectId=require('mongodb').ObjectId
 
 
@@ -34,11 +33,8 @@ module.exports={
 
     getProduct:(proId)=>{
       return new Promise(async(resolve,reject)=>{
-        let product=await db.get().collection(collection.PRODUCT_COLLECTION).findOne({_id:objectId(proId)}).then((data)=>{
-          resolve(data)
-        }).catch(()=>{
-          reject()
-        })
+        let product=await db.get().collection(collection.PRODUCT_COLLECTION).findOne({_id:objectId(proId)})
+        resolve(product)
       })
     },
     
@@ -108,7 +104,6 @@ module.exports={
 
     addAddress:(address,userId)=>{
       return new Promise(async(resolve,reject)=>{
-        console.log(address)
        addrObj={
         id:objectId(),
         name:address.name,
@@ -116,15 +111,12 @@ module.exports={
         address:address.address,
         town:address.town,
         city:address.city,
-        phone:address.phone,
-        state:address.State
+        phone:address.phone
        }   
 
       let user=await db.get().collection(collection.USER_COLLECTION).findOne({_id:objectId(userId)})
       console.log(userId);
-      //  if(user.address?.length > 0){
-       if(user.address.length > 0){
-
+       if(user.address?.length > 0){
         db.get().collection(collection.USER_COLLECTION).updateOne({_id:objectId(userId)},{$push:{address:addrObj}}).then(()=>{
           resolve()
         })
@@ -134,22 +126,6 @@ module.exports={
           resolve()
         })
        }
-      })
-    },
-
-    editAddress:(userId,addId,data)=>{
-      return new Promise((resolve,reject)=>{
-       db.get().collection(collection.USER_COLLECTION).updateOne({_id:objectId(userId),'address.id':objectId(addId)},{$set:{
-        'address.$.name':data.name,
-        'address.$.pincode':data.pincode,
-        'address.$.address':data.address,
-        'address.$.town':data.town,
-        'address.$.city':data.city,
-        'address.$.phone':data.phone,
-        'address.$.state':data.State 
-      }})
-      resolve()
-      
       })
     },
 
@@ -270,48 +246,9 @@ module.exports={
             console.log(result)
           })
         })
-      },
-
-      getAllCoupons:()=>{
-        return new Promise(async(resolve,reject)=>{
-          let result=await db.get().collection(collection.COUPON_COLLECTION).find().toArray()
-          resolve(result)
-        })
-      },
-      addCoupon:(data)=>{
-        return new Promise((resolve,reject)=>{
-          db.get().collection(collection.COUPON_COLLECTION).insertOne(data)
-          resolve()
-        })
-      },
-      editCoupon:(couId,data)=>{
-       return new Promise((resolve,reject)=>{
-        db.get().collection(collection.COUPON_COLLECTION).updateOne({_id:objectId(couId)},{$set:{
-          couponCode:data.couponCode,
-          price:data.price,
-          validFrom:data.validFrom,
-          validTill:data.validTill,
-          minPrice:data.minPrice
-        }})
-        resolve()
-       })
-      },
-      
-      deleteCoupon:(couId)=>{
-        return new Promise((resolve,reject)=>{
-          db.get().collection(collection.COUPON_COLLECTION).deleteOne({_id:objectId(couId)})
-          resolve()
-        })
-      },
-
-      couponCheck:(code)=>{
-        return new Promise(async(resolve,reject)=>{
-          console.log(code);
-        let coupon=await db.get().collection(collection.COUPON_COLLECTION).findOne({couponCode:code.couponCode})
-         
-        resolve(coupon)
-        })
       }
+
+
 
    
 }    
